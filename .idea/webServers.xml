@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="22fcd125-e2d0-4277-918c-96c58d8ead48" name="tenrac">
+        <fileTransfer rootFolder="/home/tenrac-projet" accessType="SFTP" host="ssh-tenrac-projet.alwaysdata.net" port="22" sshConfigId="1a10353c-0d9d-40d0-bdfa-9c9af26e3c11" sshConfig="tenrac-projet@ssh-tenrac-projet.alwaysdata.net:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
