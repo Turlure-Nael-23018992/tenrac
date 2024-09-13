@@ -5,7 +5,9 @@
     <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
 </head>
 <header class="header">
-    <h1>Tenrac</h1>
+    <a href="/modules/blog/views/homepage.php">
+        <h1>Tenrac</h1>
+    </a>
     <nav>
         <ul>
             <li><a href="/login">Structure</a></li>
