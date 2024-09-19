@@ -1,6 +1,6 @@
 <?php
-namespace Blog\Controllers\HomepageController;
-use Includes\Database\DatabaseConnection, Blog\Models\HomePageRepository\HomePageRepository;
+namespace blog\controllers\HomepageController;
+use includes\database\databaseConnection, Blog\Models\HomePageRepository\HomePageRepository;
 
 Class HomePageController {
 
@@ -8,7 +8,7 @@ Class HomePageController {
     {
     $homepageRepository = new PostRepository(DatabaseConnection::getInstance());
     
-    (new \Blog\Views\homepage($posts))->show();
+    (new modules\blog\views\homepage())->show();
     }
     
 }
