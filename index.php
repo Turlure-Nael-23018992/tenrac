@@ -1,44 +1,16 @@
 <?php
-
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <title>Se connecter</title>
-        <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
-    </head>
-    <body>
-    <?php include 'modules/blog/views/header.php'; ?>
-    <br>
-    <br>
-    <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br> <br>
-    <br>
-    </body>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</html>
+require '_assets/includes/autoloader.php';
+try {
+    if (filter_input(INPUT_GET, 'action')) {
+        if ($_GET['action'] === 'post') {
+            if (filter_input(INPUT_GET, 'id') && $_GET['id'] > 0) {
+                (new \Blog\Controllers\Post\Post())->execute($_GET['id']);
+            }
+            throw new ControllerException('Aucun identifiant de billet envoyé');
+        }
+        throw new ControllerException('La page que vous recherchez n\'existe pas');
+    }
+    (new \Blog\Controllers\HomePageController\Homepage())->execute();
+} catch (ControllerException $e) {
+    (new \Blog\Views\Error($e->getMessage()))->show();
+}
