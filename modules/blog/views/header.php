@@ -10,7 +10,7 @@
     </a>
     <nav>
         <ul>
-            <li><a href="/login">Structure</a></li>
+            <li><a href="/modules/blog/views/structure.php">Structure</a></li>
             <li><a href="/contact">Plats</a></li>
         </ul>
     </nav>

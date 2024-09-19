@@ -4,16 +4,19 @@ $repas = [
     [
         'nom' => 'Petit Déjeuner',
         'horaire' => '08:00 - 09:00',
+        'lieu' => "Adresse 485115",
         "active" => true
     ],
     [
         'nom' => 'Déjeuner',
         'horaire' => '12:00 - 13:30',
+        'lieu' => "10 Av. Paul Cézanne, 13090 Aix-en-Provence",
         "active" => true
     ],
     [
         'nom' => 'Dîner',
         'horaire' => '19:00 - 21:00',
+        'lieu' => "Adresse 485115",
         "active" => false
     ]
 ];
@@ -37,6 +40,7 @@ $repas = [
                     <div>
                         <h3><?php echo htmlspecialchars($repasItem['nom']); ?></h3>
                         <p><?php echo htmlspecialchars($repasItem['horaire']); ?></p>
+                        <p><?php echo htmlspecialchars($repasItem['lieu']); ?></p>
                         <?php if ($repasItem['active']) { ?>
                         <button class="btn-ins">S'inscrire</button>
                         <?php  }else { ?>

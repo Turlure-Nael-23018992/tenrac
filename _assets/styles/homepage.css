@@ -28,6 +28,9 @@
     background-color: #400f0a;
 }
 .calend div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
     padding: 7%;
     height: 100%;
 }
@@ -42,7 +45,7 @@
 .calend div button {
     border: none;
     
-    padding: 3px;
+    padding: 5px;
     width: 100%;
     display: flex;
     justify-content: center;
