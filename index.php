@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/modules/blog/controllers/HomePageController.php';
+require_once __DIR__ . '/_assets/includes/database.php';
 
 function loadPage($page) {
     $controller = new HomePageController();
@@ -21,19 +22,4 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'homepage';
 
 loadPage($page);
 
-?>
-
-<?php
-$servername = "mysql-tenrac-projet.alwaysdata.net"; 
-$username = "374958_admin2"; 
-$password = "tenracprojetmdp";
-$dbname = "tenrac-projet_valentin";
-
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-
-}
-$conn = null;
 ?>
