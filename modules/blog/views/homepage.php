@@ -1,5 +1,5 @@
 <?php
-
+namespace blog\views\homepage;
 $repas = [
     [
         'nom' => 'Petit Déjeuner',
@@ -20,6 +20,10 @@ $repas = [
         "active" => false
     ]
 ];
+?>
+<?php
+Class Homepage {
+ public function show() { // PSR-12: opening brace next line
 ?>
 <head>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
@@ -57,3 +61,6 @@ $repas = [
 <script src="/_assets/scripts/homepage.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<?php
+ }
+ ?>

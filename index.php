@@ -10,7 +10,7 @@ try {
         }
         throw new ControllerException('La page que vous recherchez n\'existe pas');
     }
-    (new \Blog\Controllers\HomePageController\Homepage())->execute();
+    (new \blog\controllers\HomePageController\Homepage())->execute();
 } catch (ControllerException $e) {
     (new \Blog\Views\Error($e->getMessage()))->show();
 }
