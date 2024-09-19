@@ -6,7 +6,7 @@
 </head>
 <header class="header">
     <a href="/modules/blog/views/homepage.php">
-        <h1>Tenrac</h1>
+        <div class="logo"></div>
     </a>
     <nav>
         <ul>
