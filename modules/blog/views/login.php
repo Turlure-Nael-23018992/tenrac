@@ -9,7 +9,7 @@ include '_assets/config/config.php';
     <head>
         <title>Login</title>
     </head>
-    <form>
+    <form method="POST" action="../models/loginProcess.php">
         <div>
             <label for='username'>Utilisateur : </label>
             <input type="text" name="username" required></input>
