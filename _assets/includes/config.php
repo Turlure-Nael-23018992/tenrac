@@ -1,5 +1,5 @@
 <?php
-
+namespace 
 $servername = "localhost";
 $username = "root";
 $password = "";
