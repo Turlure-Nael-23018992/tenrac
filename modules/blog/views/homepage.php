@@ -23,6 +23,11 @@ $repas = [
 ?>
 <?php
 Class Homepage {
+    private $repas;
+
+    public function __construct($repas) {
+        $this->repas = $repas;
+    }
  public function show() { // PSR-12: opening brace next line
 ?>
 <head>
