@@ -1,12 +1,7 @@
 <?php
 namespace blog\views\homepage;
 Class Homepage {
-    private $repas;
-
-    public function __construct($repas) {
-        $this->repas = $repas;
-    }
- public function show() { // PSR-12: opening brace next line
+ public function show($repas) { // PSR-12: opening brace next line
 ?>global$repas; global$repas;
      <head>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">

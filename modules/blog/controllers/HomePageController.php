@@ -9,7 +9,7 @@ Class HomePageController {
     public function execute()
     {
     $homepageRepository = new PostRepository(DatabaseConnection::getInstance());
-    (new modules\blog\views\homepage\Homepage($homepageRepository))->show();
+    (new modules\blog\views\homepage\Homepage())->show($homepageRepository);
     }
     
 }
