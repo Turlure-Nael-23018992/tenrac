@@ -1,23 +1,26 @@
 <?php
-require '_assets/includes/autoloader.php';
-try {
-    if (filter_input(INPUT_GET, 'action')) {
-        switch($_GET['action']) {
-            case 'homepage':
-                (new \Blog\Controllers\HomePageController\HomePageController())->execute();
-                break;
-            case 'struture':
-                (new \Blog\Controllers\StructureController\StructureController())->execute();
-                break;
-            default:
-                throw new ControllerException('La page que vous recherchez n\'existe pas');
-        }
-        
+require_once __DIR__ . '/modules/blog/controllers/HomePageController.php';
+
+function loadPage($page) {
+    $controller = new HomePageController();
+
+    switch ($page) {
+        case 'homepage':
+            $controller->showHomePage();
+            break;
+        case 'login':
+            $controller->showLoginPage();
+            break;
+        default:
+            $controller->show404();
+            break;
     }
-    (new \Blog\Controllers\HomePageController\Homepage())->execute();
-} catch (ControllerException $e) {
-    (new \Blog\Views\Error($e->getMessage()))->show();
 }
+
+$page = isset($_GET['page']) ? $_GET['page'] : 'homepage';
+
+loadPage($page);
+
 ?>
 
 <?php
@@ -29,9 +32,8 @@ $dbname = "tenrac-projet_valentin";
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connexion réussie !";
 } catch (PDOException $e) {
-    echo "Échec de la connexion : " . $e->getMessage();
+
 }
 $conn = null;
 ?>

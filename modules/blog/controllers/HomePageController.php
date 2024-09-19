@@ -1,14 +1,18 @@
 <?php
-namespace Blog\Controllers\HomepageController;
-use Includes\Database\DatabaseConnection, Blog\Models\HomePageRepository\HomePageRepository;
 
-Class HomePageController {
+class HomePageController {
 
-    public function execute(): void
-    {
-    $homepageRepository = new PostRepository(DatabaseConnection::getInstance());
-    
-    (new \Blog\Views\homepage($posts))->show();
+    public function showHomePage() {
+        require __DIR__ . '/../views/homepage.php';
     }
-    
+
+    public function showLoginPage() {
+        require __DIR__ . '/../views/login.php';
+    }
+
+    public function show404() {
+        require __DIR__ . '/../views/404.php';
+    }
 }
+
+?>
