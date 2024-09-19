@@ -1,6 +1,6 @@
 <?php
-namespace Blog\Controllers\Homepage;
-use Includes\Database\DatabaseConnection, Blog\Models\Post\PostRepository;
+namespace Blog\Controllers\HomepageController;
+use Includes\Database\DatabaseConnection, Blog\Models\HomePageRepository\HomePageRepository;
 
 Class HomePageController {
 

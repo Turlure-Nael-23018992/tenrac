@@ -1,5 +1,5 @@
 <?php
-namespace 
+namespace Includes\Database\DatabaseConnection;
 $servername = "localhost";
 $username = "root";
 $password = "";
