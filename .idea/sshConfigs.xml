@@ -3,6 +3,7 @@
   <component name="SshConfigs">
     <configs>
       <sshConfig authType="PASSWORD" host="ssh-tenrac-projet.alwaysdata.net" id="1a10353c-0d9d-40d0-bdfa-9c9af26e3c11" port="22" nameFormat="DESCRIPTIVE" username="tenrac-projet" useOpenSSHConfig="true" />
+      <sshConfig authType="PASSWORD" host="ssh-mehdi.alwaysdata.net" id="46db1d4f-7bbf-479b-b468-3e56bbac5d06" port="22" nameFormat="DESCRIPTIVE" username="mehdi" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>

@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="7d20b39e-7d8d-4150-aad9-669b4e5bd535" name="PHP Nevot">
+        <fileTransfer rootFolder="/home/mehdi/www" accessType="SFTP" host="ssh-mehdi.alwaysdata.net" port="22" sshConfigId="46db1d4f-7bbf-479b-b468-3e56bbac5d06" sshConfig="mehdi@ssh-mehdi.alwaysdata.net:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

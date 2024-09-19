@@ -1,9 +1,10 @@
 <?php
-require_once __DIR__ . '/modules/blog/controllers/HomePageController.php';
-require_once __DIR__ . '/_assets/includes/database.php';
 
-function loadPage($page) {
-    $controller = new HomePageController();
+require_once __DIR__ . '/_assets/includes/database.php';
+require_once __DIR__ . '/modules/blog/controllers/HomePageController.php'; 
+
+function loadPage($page, PDO $pdo) {
+    $controller = new HomePageController($pdo);
 
     switch ($page) {
         case 'homepage':
@@ -19,7 +20,6 @@ function loadPage($page) {
 }
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'homepage';
-
-loadPage($page);
+loadPage($page, $pdo);
 
 ?>
