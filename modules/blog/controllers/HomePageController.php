@@ -1,14 +1,12 @@
 <?php
-namespace blog\controllers\HomepageController;
-use includes\database\databaseConnection, Blog\Models\HomePageRepository\HomePageRepository;
+namespace modules\blog\controllers\HomePageController;
 
-Class HomePageController {
+use Blog\Models\HomePageRepository\HomePageRepository;
+use Includes\Database\DatabaseConnection;
 
-    public function execute(): void
-    {
-    $homepageRepository = new PostRepository(DatabaseConnection::getInstance());
-    
-    (new modules\blog\views\homepage())->show();
+class HomePageController {
+    public function execute(): void {
+        $homepageRepository = new HomePageRepository(DatabaseConnection::getInstance());
+        (new \modules\blog\views\homepage())->show();
     }
-    
 }
