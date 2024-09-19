@@ -29,8 +29,8 @@ Class Homepage {
         $this->repas = $repas;
     }
  public function show() { // PSR-12: opening brace next line
-?>
-<head>
+?>global$repas; global$repas;
+     <head>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
 </head>
@@ -68,4 +68,5 @@ Class Homepage {
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <?php
  }
+}
  ?>
