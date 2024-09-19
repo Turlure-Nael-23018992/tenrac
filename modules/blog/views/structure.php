@@ -1,4 +1,10 @@
 <?php
+    namespace modules\blog\views\structure;
+    Class Structure{
+        public function show() {
+            ob_start();
+?>
+<?php
 include 'header.php';
 ?>
 <head>

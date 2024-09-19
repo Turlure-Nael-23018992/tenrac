@@ -6,7 +6,7 @@ Class HomePageController {
     /**
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
     $homepageRepository = new PostRepository(DatabaseConnection::getInstance());
     (new modules\blog\views\homepage\Homepage())->show($homepageRepository);
