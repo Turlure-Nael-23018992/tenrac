@@ -8,10 +8,23 @@
     flex-direction: column;
     align-items: center;
 }
-.actualites h1 {
 
+.actualites h1 {
     margin-bottom: 3vh ;
+    position: relative;
 }
+
+.actualites h1::after {
+    content: "";
+    width: 50%;
+    background: #000;
+    height: 2px;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
 .contCalend {
     width: 90%;
     display: flex;
@@ -24,8 +37,8 @@
     color: #fff2f1;
     width: 20%;
     margin: 0 10px 10px 10px;
-
     background-color: #400f0a;
+    box-shadow: 0 0 15px #000;
 }
 .calend div {
     display: flex;
