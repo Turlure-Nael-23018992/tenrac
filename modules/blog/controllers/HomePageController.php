@@ -1,14 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/Repas/RepasDao.php';
-
 class HomePageController {
-    private $userDAO;
-
-    public function __construct($pdo) {
-        $this->userDAO = new UserDao($pdo);
-    }
-
     public function showHomePage() {
         require __DIR__ . '/../views/homepage.php';
     }
