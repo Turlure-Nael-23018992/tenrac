@@ -1,20 +1,27 @@
 <?php
 require '_assets/includes/autoloader.php';
+
 try {
-    if (filter_input(INPUT_GET, 'action')) {
-        switch($_GET['action']) {
+    // Check if an 'action' parameter exists in the URL
+    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+
+    if ($action) {
+        switch ($action) {
             case 'homepage':
-                (new \Blog\Controllers\HomePageController\HomePageController())->execute();
+                (new \modules\blog\controllers\HomePageController\HomePageController())->execute();
                 break;
-            case 'struture':
-                (new \Blog\Controllers\StructureController\StructureController())->execute();
+
+            case 'structure':
+                (new \modules\blog\controllers\StructureController\StructureController())->execute();
                 break;
+
             default:
-                throw new ControllerException('La page que vous recherchez n\'existe pas');
+                throw new ControllerException('La page que vous recherchez n\'existe pas.');
         }
-        
+    } else {
+        (new \modules\blog\controllers\HomePageController\HomePageController())->execute();
     }
-    (new \blog\controllers\HomePageController\Homepage())->execute();
+
 } catch (ControllerException $e) {
     (new \Blog\Views\Error($e->getMessage()))->show();
 }
