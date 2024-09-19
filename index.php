@@ -2,13 +2,17 @@
 require '_assets/includes/autoloader.php';
 try {
     if (filter_input(INPUT_GET, 'action')) {
-        if ($_GET['action'] === 'post') {
-            if (filter_input(INPUT_GET, 'id') && $_GET['id'] > 0) {
-                (new \Blog\Controllers\Post\Post())->execute($_GET['id']);
-            }
-            throw new ControllerException('Aucun identifiant de billet envoyé');
+        switch($_GET['action']) {
+            case 'homepage':
+                (new \Blog\Controllers\HomePageController\HomePageController())->execute();
+                break;
+            case 'struture':
+                (new \Blog\Controllers\StructureController\StructureController())->execute();
+                break;
+            default:
+                throw new ControllerException('La page que vous recherchez n\'existe pas');
         }
-        throw new ControllerException('La page que vous recherchez n\'existe pas');
+        
     }
     (new \blog\controllers\HomePageController\Homepage())->execute();
 } catch (ControllerException $e) {
