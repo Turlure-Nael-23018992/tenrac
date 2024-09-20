@@ -9,24 +9,24 @@ class TenracDAO {
     public function getTenracById(int $id_tenrac): ?Tenrac {
         $query = "SELECT * FROM Tenrac WHERE id_tenrac = :id_tenrac";
         $stmt = $this->pdo->prepare($query);
-        $stmt->bind_param(':id_tenrac', $id_tenrac);
+        $stmt->bind_param(':id_tenrac', $id_tenrac, PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row = $result->fetch_assoc()) {
+        if ($result) {
             return new Tenrac(
-                $row['id_tenrac'],
-                $row['courriel'],
-                $row['tel'],
-                $row['grade'],
-                $row['rang'],
-                $row['titre'],
-                $row['dignite'],
-                $row['nom'],
-                $row['adresse'],
-                $row['motdepasse'],
-                $row['id_club'],
-                $row['id_ordre']
+                $result['id_tenrac'],
+                $result['courriel'],
+                $result['tel'],
+                $result['grade'],
+                $result['rang'],
+                $result['titre'],
+                $result['dignite'],
+                $result['nom'],
+                $result['adresse'],
+                $result['motdepasse'],
+                $result['id_club'],
+                $result['id_ordre']
             );
         }
         return null;

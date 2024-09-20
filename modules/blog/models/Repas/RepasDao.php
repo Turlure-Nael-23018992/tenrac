@@ -1,6 +1,6 @@
 <?php
 
-class UserDao
+class RepasDao
 {
     private PDO $pdo;
 

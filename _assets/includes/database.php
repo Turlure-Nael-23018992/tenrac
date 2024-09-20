@@ -1,7 +1,7 @@
 <?php
 
 $servername = "mysql-tenrac-projet.alwaysdata.net"; 
-$username = "374958_admin2"; 
+$username = "374958";
 $password = "tenracprojetmdp";
 $dbname = "tenrac-projet_valentin";
 
