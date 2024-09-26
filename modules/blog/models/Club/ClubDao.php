@@ -1,5 +1,5 @@
 <?php
-
+require_once 'modules/blog/models/Club/Club.php';
 class ClubDAO
 {
     private PDO $pdo;
@@ -8,9 +8,8 @@ class ClubDAO
     {
         $this->pdo = $pdo;
     }
-
-    // Récupérer un club par ID
-    public function getClubById(int $id_club): ?Club
+    // Récuperer un club par son id
+    public function getClubsById(int $id_club): Club
     {
         $query = "SELECT id_club, nom, id_ordre FROM club WHERE id_club = :id_club";
         $stmt = $this->pdo->prepare($query);
@@ -24,6 +23,23 @@ class ClubDAO
 
         return null;
     }
+    // Récupérer les derniers clubs
+    public function getLastClubs(int $limit) : array
+{
+    $query = "SELECT id_club, nom, id_ordre FROM club ORDER BY id_club DESC LIMIT :limit";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $clubs = [];
+    foreach ($results as $row) {
+        $clubs[] = new Club($row['id_club'], $row['nom'], $row['id_ordre']);
+    }
+
+    return $clubs;
+}
 
     // Récupérer un club par nom
     public function getClubByNom(string $nom): ?Club
@@ -67,4 +83,5 @@ class ClubDAO
 
         return $clubs;
     }
+
 }

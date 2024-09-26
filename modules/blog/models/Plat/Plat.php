@@ -33,6 +33,6 @@ class Plat
 
     public function __toString(): string
     {
-        return "Plat ID: {$this->id_plat}, Nom: {$this->nom}";
+        return "Plat ID: {$this->id_plat}, Nom: {$this->nom} ";
     }
 }

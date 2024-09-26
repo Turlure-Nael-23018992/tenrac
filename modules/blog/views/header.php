@@ -10,8 +10,8 @@
     </a>
     <nav>
         <ul>
-            <li><a href="/modules/blog/views/structure.php">Structure</a></li>
-            <li><a href="/contact">Plats</a></li>
+            <li><a href="/?page=structure">Structure</a></li>
+            <li><a href="/?page=plats">Plats</a></li>
         </ul>
     </nav>
     <div>

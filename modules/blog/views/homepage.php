@@ -11,13 +11,16 @@ class Homepage{
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
 </head>
+<?php include_once 'login.php'; ?>
 <?php include_once 'header.php';  ?>
 <main>
     <div class="actualites">
         <h1>Actualités</h1>
         <div class="contCalend">
             <?php   
-            echo $this->plats;
+            foreach($this->plats as $plat) {
+                echo $plat;
+            }
             ?>
         </div>
         <hr>

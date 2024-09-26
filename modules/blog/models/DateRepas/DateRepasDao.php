@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/blog/models/DateRepas/DateRepas.php';
 
 class DateRepasDAO
 {

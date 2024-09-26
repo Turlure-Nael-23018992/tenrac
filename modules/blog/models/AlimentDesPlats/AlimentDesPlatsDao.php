@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/blog/models/AlimentDesPlats/AlimentDesPlats.php';
 
 class AlimentDesPlatsDAO
 {

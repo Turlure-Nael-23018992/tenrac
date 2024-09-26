@@ -3,18 +3,17 @@ include '_assets/includes/config.php'; // Pour la connexion à la base de donné
 
 if (filter_input(INPUT_POST, 'username') && filter_input(INPUT_POST, 'password'))
 {
-    $login = $_POST['username'];  // variable login = username rentré par l'utilisateur dans le form
-    $mdp = $_POST['password']; // variable mdp = mdp rentré par l'utilisateur dans le form
+    $login = $_POST['courriel'];  // variable login = username rentré par l'utilisateur dans le form
+    $mdp = $_POST['mdp']; // variable mdp = mdp rentré par l'utilisateur dans le form
 
-    $username = 'SELECT couriel FROM tenrac WHERE couriel = $login'; // on récupère le tenrac correspondant au couriel rentré par l'utilisateur
-    $password = 'SELECT motdepasse FROM tenrac WHERE couriel = $login'; // on récupère le mot de passe associé
+    $password = 'SELECT motdepasse FROM tenrac WHERE courriel = $login'; // on récupère le mot de passe associé
 
-    if ($username === $_POST['username'] && password_verify($_POST['password'], $mdp)) // Si le couriel et mdp correspondent
+    if ($username === $_POST['courriel'] && password_verify($_POST['mdp'], $mdp)) // Si le couriel et mdp correspondent
     {
-        echo "Connexion réussie, bienvenue";
         session_start(); // démarrage de la session
         $_SESSION['username'] = $username['couriel'];
-        header("Location: ../viewshomepage.php"); // redirection vers la homepage
+        setcookie('IsCo', true, time() + 3600);
+        header("Location: ../views/homepage.php"); // redirection vers la homepage
         exit();
     }
     else // sinon

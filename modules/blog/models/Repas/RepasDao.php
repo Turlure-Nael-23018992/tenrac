@@ -1,4 +1,5 @@
 <?php
+require_once 'modules/blog/models/Repas/Repas.php';
 
 class RepasDao
 {

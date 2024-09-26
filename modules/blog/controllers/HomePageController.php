@@ -9,7 +9,7 @@ class HomePageController {
         
         $platDao = new PlatDao(Database::getInstance());
         $plats = $platDao->getPlatById(1); 
-        
+         
         (new Homepage($plats))->show(); 
     }
 }

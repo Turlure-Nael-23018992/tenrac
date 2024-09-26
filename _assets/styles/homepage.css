@@ -78,3 +78,8 @@
 .ins {
     background-color: green;
 }
+.formco {
+    position: absolute;
+    top: 30%;
+    right: 30%;
+}
