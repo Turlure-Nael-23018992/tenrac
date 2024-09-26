@@ -1,15 +1,20 @@
 <?php
-class TenracDAO {
-    private $connection;
 
-    public function __construct($connection) {
-        $this->connection = $connection;
+class TenracDAO
+{
+    private PDO $pdo;
+
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
     }
 
-    public function getTenracById(int $id_tenrac): ?Tenrac {
+    // Récupérer un Tenrac par ID
+    public function getTenracById(int $id_tenrac): ?Tenrac
+    {
         $query = "SELECT * FROM Tenrac WHERE id_tenrac = :id_tenrac";
         $stmt = $this->pdo->prepare($query);
-        $stmt->bind_param(':id_tenrac', $id_tenrac, PDO::PARAM_INT);
+        $stmt->bindParam(':id_tenrac', $id_tenrac, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -32,12 +37,14 @@ class TenracDAO {
         return null;
     }
 
-    public function getAllTenracs(): array {
+    // Récupérer tous les Tenrac
+    public function getAllTenracs(): array
+    {
         $query = "SELECT * FROM Tenrac";
-        $result = $this->connection->query($query);
+        $stmt = $this->pdo->query($query);
         $tenracs = [];
 
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $tenracs[] = new Tenrac(
                 $row['id_tenrac'],
                 $row['courriel'],
@@ -57,4 +64,3 @@ class TenracDAO {
         return $tenracs;
     }
 }
-?>

@@ -4,6 +4,7 @@ require_once __DIR__ . '/_assets/includes/database.php';
 require_once __DIR__ . '/modules/blog/controllers/HomePageController.php'; 
 
 function loadPage($page, PDO $pdo) {
+    
     $controller = new HomePageController($pdo);
 
     switch ($page) {
@@ -18,8 +19,8 @@ function loadPage($page, PDO $pdo) {
             break;
     }
 }
-
 $page = isset($_GET['page']) ? $_GET['page'] : 'homepage';
-loadPage($page, $pdo);
+loadPage($page, Database::getInstance());
+
 
 ?>

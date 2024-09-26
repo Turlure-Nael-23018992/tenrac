@@ -9,7 +9,7 @@ class TenracController
     public function execute(): void
     {
         $TenracDao = new TenracDao(DatabaseConnection::getInstance());
-        $Tenrac = $TenracDao->getTenracById();
+        $Tenrac = $TenracDao->getTenracById(1);
     }
 
 }

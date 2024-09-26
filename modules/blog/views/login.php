@@ -1,6 +1,7 @@
 <?php
 include '_assets/config/config.php';
-
+class Login{
+    public function show():void{
 ?>
 
 <!DOCTYPE html>
@@ -21,3 +22,7 @@ include '_assets/config/config.php';
         <button type="submit">Se connecter</button>
     </form>
 </html>
+<?php
+    }
+}
+?>

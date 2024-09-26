@@ -1,6 +1,8 @@
 <?php
 
-class PlatDAO
+require_once 'modules/blog/models/Plat/Plat.php';
+
+class PlatDao
 {
     private PDO $pdo;
 
