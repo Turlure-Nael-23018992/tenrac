@@ -17,7 +17,7 @@ class StructureController{
             echo "PDO ne marche pas";
         }
         
-        $platDao = new PlatDao($pdo);
+        $clubDao = new Club($pdo);
         $plats = $platDao->getPlatById(1); // Fetch the plat by ID
         echo "salut c'est le controller";
         var_dump($plats);
