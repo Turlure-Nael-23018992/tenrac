@@ -1,4 +1,5 @@
 <?php
+
 require_once 'modules/blog/models/Plat/Plat.php';
 
 class PlatDao
@@ -57,6 +58,7 @@ class PlatDao
 
         return $plats;
     }
+
     public function addPlat(string $nom): bool
 {
     try {

@@ -20,7 +20,7 @@ class PlatPage {
         <!-- Ajouter un plat -->
         <div class="add-plat">
             <h2>Ajouter un plat</h2>
-            <form method="POST" action="../models/Plat/PlatDao.php">
+            <form method="POST" action="modules/blog/controllers/PlatController.php?action=addPlat">
                 <input type="text" name="nom_plat" placeholder="Nom du plat" required>
                 <button type="submit">Ajouter</button>
             </form>

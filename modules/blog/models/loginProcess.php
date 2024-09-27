@@ -1,25 +1,50 @@
 <?php
-include '_assets/includes/config.php'; // Pour la connexion à la base de données
+// Démarrer une session
+session_start();
 
-if (filter_input(INPUT_POST, 'username') && filter_input(INPUT_POST, 'password'))
-{
-    $login = $_POST['courriel'];  // variable login = username rentré par l'utilisateur dans le form
-    $mdp = $_POST['mdp']; // variable mdp = mdp rentré par l'utilisateur dans le form
+// Inclure le fichier de connexion à la base de données (assurez-vous d'avoir une connexion PDO)
+require_once __DIR__ . '/../config/database.php';
 
-    $password = 'SELECT motdepasse FROM tenrac WHERE courriel = $login'; // on récupère le mot de passe associé
+// Vérifier si le formulaire a été soumis
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Récupérer les valeurs soumises par le formulaire
+    $email = isset($_POST['courriel']) ? trim($_POST['courriel']) : '';
+    $password = isset($_POST['mdp']) ? $_POST['mdp'] : '';
 
-    if ($username === $_POST['courriel'] && password_verify($_POST['mdp'], $mdp)) // Si le couriel et mdp correspondent
-    {
-        session_start(); // démarrage de la session
-        $_SESSION['username'] = $username['couriel'];
-        setcookie('IsCo', true, time() + 3600);
-        header("Location: ../views/homepage.php"); // redirection vers la homepage
-        exit();
+    // Vérifier si les champs sont remplis
+    if (empty($email) || empty($password)) {
+        die('Veuillez remplir tous les champs.');
     }
-    else // sinon
-    {
-        echo "Nom d'utilisateur ou mot de passe incorrect";
+
+    // Préparer une requête pour vérifier si l'utilisateur existe
+    $query = "SELECT * FROM utilisateurs WHERE courriel = :courriel";
+    
+    try {
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':courriel', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Vérifier si l'utilisateur a été trouvé
+        if ($user) {
+            // Comparer le mot de passe haché stocké dans la BD avec celui fourni
+            if (password_verify($password, $user['mdp'])) {
+                // Si les mots de passe correspondent, démarrer une session
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['courriel'];
+
+                // Rediriger vers la page d'accueil ou tableau de bord
+                header('Location: /homepage.php');
+                exit();
+            } else {
+                die('Le mot de passe est incorrect.');
+            }
+        } else {
+            die('Utilisateur non trouvé.');
+        }
+    } catch (PDOException $e) {
+        die("Erreur de base de données : " . $e->getMessage());
     }
 }
-
 ?>

@@ -16,7 +16,7 @@
     </nav>
     <div>
         <button class="logout-button">
-            <ion-icon name="log-out-outline">Se déconnecter</ion-icon>
+            <ion-icon name="log-in-outline">Se déconnecter</ion-icon>
         </button>
     </div>
 </header>

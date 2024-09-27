@@ -11,22 +11,24 @@ class Homepage{
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
 </head>
-<?php include_once 'login.php'; ?>
+<body>
 <?php include_once 'header.php';  ?>
 <main>
-    <div class="actualites">
-        <h1>Actualités</h1>
-        <div class="contCalend">
-            <?php   
-            foreach($this->plats as $plat) {
-                echo $plat;
-            }
-            ?>
+    <section class="presentation-container">
+        <div class="text-container">
+            <h1>Bienvenue dans l'Ordre des Tenracs</h1> 🧀🍗<br><br>
+            Plongez dans l'univers <strong>savoureux</strong> et <strong>convivial</strong> de l'Ordre des Tenracs, où la passion pour les tenders de poulet à la raclette 🧀🍗 est célébrée à chaque instant. <br>Que vous soyez un <strong>novice curieux</strong> ou un <strong>grand maître</strong> 🏅 de notre tradition, notre site vitrine met en lumière les clubs tenracs à travers le territoire 🗺️ et les repas secrets 🕵️‍♂️ qui réunissent nos membres autour de plats uniques et délicieux 😋.
+            <br><br><h2>Découvrez nos activités</h2> :<br>
+            - Rejoignez l'Ordre et explorez nos clubs de tenracs 🤝, leur histoire 📜 et leur mission.<br>
+            - Participez à des repas exclusifs 🍽️ où chaque plat à base de raclette est un hommage à notre amour pour la gastronomie généreuse 🤤.<br>
+            - Explorez nos événements à venir 📅 et plongez dans une aventure culinaire 🧀 sans précédent.<br>
+            Chaque repas est l’occasion de savourer des <strong>plats originaux</strong> à base de raclette, accompagnés des <strong>ingrédients les plus surprenants</strong> 🤯, dans une ambiance chaleureuse 🔥 et fraternelle 🤗.<br>
+            <br><strong>Bienvenue chez les Tenracs</strong> 🎉, où la passion de la raclette 🧀 rencontre la convivialité !
         </div>
-        <hr>
-    </div>
-</main>
-
+        <img src="https://placehold.co/600x400" alt="tenrac">
+    </section>
+</main>/_assets/webfonts
+</body>
 <script src="/_assets/scripts/homepage.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

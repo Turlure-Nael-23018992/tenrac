@@ -1,7 +1,9 @@
 <?php
 include '/../loginProcess.php';
 ?>
-
+<head>
+    <link rel="stylesheet" type="text/css" href="/_assets/styles/login.css">
+</head>
 <section class="formco">
     <h1>Connection</h1>
     <form action="action.php" method="post">

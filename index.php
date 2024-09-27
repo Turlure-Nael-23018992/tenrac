@@ -19,6 +19,9 @@ function loadPage($page, PDO $pdo) {
             require_once __DIR__ . '/modules/blog/views/plat.php';
             (new PlatController())->execute();
             break;
+        case 'repas':
+            
+            break;
         default:
             echo '404';
             break;
