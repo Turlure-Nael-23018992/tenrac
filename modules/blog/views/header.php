@@ -12,6 +12,7 @@
         <ul>
             <li><a href="/?page=structure">Structure</a></li>
             <li><a href="/?page=plats">Plats</a></li>
+            <li><a href="/?page=repas">Repas</a></li>
         </ul>
     </nav>
     <div>

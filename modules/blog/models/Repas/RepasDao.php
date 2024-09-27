@@ -9,9 +9,9 @@ class RepasDao
         $this->pdo = $pdo;
     }
 
-    public function getLastsRepas(int $limit): array
+    public function getLastRepas(int $limit): array
     {
-        $query = "SELECT id, nom FROM Repas";
+        $query = "SELECT id_repas, nom FROM Repas ORDER BY id_repas DESC LIMIT :limit";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();

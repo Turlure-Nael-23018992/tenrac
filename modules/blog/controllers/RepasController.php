@@ -5,11 +5,15 @@ require_once '_assets/includes/database.php';
 
 class RepasController{
 
-    public function execute(): void {
-        
-        $repasDao = new RepasDao(Database::getInstance());
-        $repas = $repasDao->getLastsRepas(10);
-        (new Repas($repas))->show(); 
+    private $repasDao;
+
+    public function __construct() {
+        $this->repasDao = new RepasDao(Database::getInstance());
+    }
+
+    public function execute() {
+        $repas = $this->repasDao->getLastRepas(5); 
+        (new RepasPage($repas))->show(); 
     }
 }
 ?>

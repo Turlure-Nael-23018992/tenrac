@@ -4,6 +4,30 @@
 }
 
 .presentation-container {
-    background: blue;
-    padding: 0 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+.second-presentation-container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+}
+
+.text-container p {
+    margin-right: 30px
+}
+
+.second-text-container {
+    margin-left: 30px;
+}
+
+.t {
+    width: 100%;
+    height: 20px;
+    background: orange;
 }
