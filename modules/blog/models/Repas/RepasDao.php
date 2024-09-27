@@ -25,6 +25,22 @@ class RepasDao
         return $repas;
     }
 
+    public function getNextRepas(int $limit): array
+    {
+        $query = "SELECT id_repas, nom, lien_image FROM Repas ORDER BY id_repas ASC LIMIT :limit";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $repas = [];
+        foreach ($results as $result) {
+            $repas[] = new Repas($result['id_repas'], $result['nom'], $result['lien_image'] ?? null);
+        }
+
+        return $repas;
+    }
+
 
     public function getRepasById(int $id): ?Repas
     {
