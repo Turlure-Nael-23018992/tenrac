@@ -1,87 +1,66 @@
 <?php
+
 require_once 'modules/blog/models/Club/Club.php';
-class ClubDAO
+
+class ClubDao
 {
-    private PDO $pdo;
+    private PDO $db;
 
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $db)
     {
-        $this->pdo = $pdo;
+        $this->db = $db;
     }
-    // Récuperer un club par son id
-    public function getClubsById(int $id_club): Club
+
+    public function getAllClubs(): array
     {
-        $query = "SELECT id_club, nom, id_ordre FROM club WHERE id_club = :id_club";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id_club', $id_club, PDO::PARAM_INT);
+        $stmt = $this->db->prepare("SELECT id_club, nom, id_ordre FROM club WHERE id_ordre = 1");
         $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($result) {
-            return new Club($result['id_club'], $result['nom'], $result['id_ordre']);
-        }
-
-        return null;
-    }
-    // Récupérer les derniers clubs
-    public function getLastClubs(int $limit) : array
-{
-    $query = "SELECT id_club, nom, id_ordre FROM club ORDER BY id_club DESC LIMIT :limit";
-    $stmt = $this->pdo->prepare($query);
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $clubs = [];
-    foreach ($results as $row) {
-        $clubs[] = new Club($row['id_club'], $row['nom'], $row['id_ordre']);
-    }
-
-    return $clubs;
-}
-
-    // Récupérer un club par nom
-    public function getClubByNom(string $nom): ?Club
-    {
-        $query = "SELECT id_club, nom, id_ordre FROM club WHERE nom = :nom";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($result) {
-            return new Club($result['id_club'], $result['nom'], $result['id_ordre']);
-        }
-
-        return null;
-    }
-
-    // Ajouter un nouveau club
-    public function addClub(string $nom, int $id_ordre): bool
-    {
-        $query = "INSERT INTO club (nom, id_ordre) VALUES (:nom, :id_ordre)";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
-        $stmt->bindParam(':id_ordre', $id_ordre, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-
-    // Récupérer tous les clubs par id_ordre
-    public function getClubsByIdOrdre(int $id_ordre): array
-    {
-        $query = "SELECT id_club, nom, id_ordre FROM club WHERE id_ordre = :id_ordre";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':id_ordre', $id_ordre, PDO::PARAM_INT);
-        $stmt->execute();
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $clubs = [];
-        foreach ($results as $row) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $clubs[] = new Club($row['id_club'], $row['nom'], $row['id_ordre']);
         }
 
         return $clubs;
     }
 
+    public function addClub(string $nom): bool
+    {
+        $stmt = $this->db->prepare("INSERT INTO club (nom, id_ordre) VALUES (:nom, 1)");
+        $stmt->bindValue(':nom', $nom, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function deleteClubById(int $id_club): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM club WHERE id_club = :id_club");
+        $stmt->bindValue(':id_club', $id_club, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function editClub(int $id_club, string $nom): bool
+    {
+        $stmt = $this->db->prepare("UPDATE club SET nom = :nom WHERE id_club = :id_club AND id_ordre = 1");
+        $stmt->bindValue(':nom', $nom, PDO::PARAM_STR);
+        $stmt->bindValue(':id_club', $id_club, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function getLastClubs(int $limit): array
+    {
+        $stmt = $this->db->prepare("SELECT id_club, nom, id_ordre FROM club WHERE id_ordre = 1 ORDER BY id_club DESC LIMIT :limit");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $clubs = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $clubs[] = new Club($row['id_club'], $row['nom'], $row['id_ordre']);
+        }
+
+        return $clubs;
+    }
 }
+?>

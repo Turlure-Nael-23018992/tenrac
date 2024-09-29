@@ -2,12 +2,12 @@
 
 class Repas
 {
-    private int $id;
+    private int $id_repas;
     private string $nom;
 
     public function __construct(int $id, string $nom)
     {
-        $this->id = $id;
+        $this->id_repas = $id;
         $this->nom = $nom;
     }
 
@@ -19,6 +19,11 @@ class Repas
     public function getNom(): string
     {
         return $this->nom;
+    }
+
+    public function getIdRepas(): int
+    {
+        return $this->id_repas;
     }
 
     public function setId(int $id): void

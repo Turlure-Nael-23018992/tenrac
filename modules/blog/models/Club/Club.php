@@ -4,9 +4,9 @@ class Club
 {
     private int $id_club;
     private string $nom;
-    private int $id_ordre;
+    private int $id_ordre = 1; // id_ordre sera toujours 1
 
-    public function __construct(int $id_club, string $nom, int $id_ordre)
+    public function __construct(int $id_club, string $nom, int $id_ordre = 1)
     {
         $this->id_club = $id_club;
         $this->nom = $nom;
@@ -42,9 +42,5 @@ class Club
     {
         $this->id_ordre = $id_ordre;
     }
-
-    public function __toString(): string
-    {
-        return "Club ID: {$this->id_club}, Nom: {$this->nom}, Ordre ID: {$this->id_ordre}";
-    }
 }
+?>

@@ -11,5 +11,4 @@ class DashboardController {
         (new Dashboard($repas))->show(); 
     }
 
-    
 }

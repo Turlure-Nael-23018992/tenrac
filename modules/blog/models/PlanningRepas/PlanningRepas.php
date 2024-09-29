@@ -60,3 +60,4 @@ class PlanningRepas
         return "Adresse: {$this->adresse}, Date: {$this->date_repas}, Repas ID: {$this->id_repas}, Horaire: {$this->horaire}";
     }
 }
+?>

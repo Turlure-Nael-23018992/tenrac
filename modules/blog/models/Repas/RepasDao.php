@@ -85,5 +85,57 @@ class RepasDao
         return false;
     }
 }
+    public function getAllRepas(): array
+    {
+        $query = "SELECT id_repas, nom FROM Repas";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $repas = [];
+        foreach ($results as $result) {
+            $repas[] = new Repas($result['id_repas'], $result['nom']);
+        }
+
+        return $repas;
+    }
+
+    public function deleteRepas(int $id): bool
+    {
+        try {
+            $query = "DELETE FROM Repas WHERE id_repas = :id";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('Erreur lors de la suppression : ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function updateRepas(int $id, string $nom): bool
+    {
+        try {
+            // Vérification de la longueur du nom de repas
+            if (strlen($nom) > 50) {
+                throw new InvalidArgumentException('Le nom du repas est trop long (50 caractères max).');
+            }
+
+            $query = "UPDATE Repas SET nom = :nom WHERE id_repas = :id";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('Erreur lors de la mise à jour : ' . $e->getMessage());
+            return false;
+        } catch (InvalidArgumentException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
 }
 ?>

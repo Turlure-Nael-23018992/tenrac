@@ -14,14 +14,14 @@ class PlatDao
     // Récupérer un plat par ID
     public function getPlatById(int $id_plat): ?Plat
     {
-        $query = "SELECT id_plat, nom FROM Plat WHERE id_plat = :id_plat";
+        $query = "SELECT id_plat, nom, lien_imageP FROM Plat WHERE id_plat = :id_plat";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id_plat', $id_plat, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new Plat($result['id_plat'], $result['nom']);
+            return new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
         }
 
         return null;
@@ -30,14 +30,14 @@ class PlatDao
     // Récupérer un plat par nom
     public function getPlatByNom(string $nom): ?Plat
     {
-        $query = "SELECT id_plat, nom FROM Plat WHERE nom = :nom";
+        $query = "SELECT id_plat, nom, lien_imageP FROM Plat WHERE nom = :nom";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new Plat($result['id_plat'], $result['nom']);
+            return new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
         }
 
         return null;
@@ -45,7 +45,7 @@ class PlatDao
 
     public function getLastPlats(int $limit): array
     {
-        $query = "SELECT id_plat, nom FROM Plat ORDER BY id_plat DESC LIMIT :limit";
+        $query = "SELECT id_plat, nom, lien_imageP FROM Plat ORDER BY id_plat DESC LIMIT :limit";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
@@ -53,50 +53,64 @@ class PlatDao
 
         $plats = [];
         foreach ($results as $result) {
-            $plats[] = new Plat($result['id_plat'], $result['nom']);
+            $plats[] = new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
         }
 
         return $plats;
     }
 
-    public function addPlat(string $nom): bool
-{
-    try {
-        // Insertion sans spécifier l'id_plat car il est auto-incrémenté
-        $query = "INSERT INTO Plat (nom) VALUES (:nom)";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+    public function addPlat(string $nom, ?string $lien_imageP): bool
+    {
+        try {
+            $query = "INSERT INTO Plat (nom, lien_imageP) VALUES (:nom, :lien_imageP)";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+            $stmt->bindParam(':lien_imageP', $lien_imageP, PDO::PARAM_STR);
 
-        // Exécuter l'insertion
-        if (!$stmt->execute()) {
-            print_r($stmt->errorInfo());  // Affiche les détails de l'erreur
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo 'Erreur lors de l\'insertion : ' . $e->getMessage();
             return false;
         }
-
-        return true;
-    } catch (PDOException $e) {
-        echo 'Erreur lors de l\'insertion : ' . $e->getMessage();
-        return false;
     }
-}
-    
+
     public function deletePlatById(int $id_plat): bool
-    {   
-    $query = "DELETE FROM Plat WHERE id_plat = :id_plat";
-    $stmt = $this->pdo->prepare($query);
-    $stmt->bindParam(':id_plat', $id_plat, PDO::PARAM_INT);
+    {
+        $query = "DELETE FROM Plat WHERE id_plat = :id_plat";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id_plat', $id_plat, PDO::PARAM_INT);
 
-    return $stmt->execute();
+        return $stmt->execute();
     }
-    
-public function updatePlatById(int $id_plat, string $nom): bool
-{
-    $query = "UPDATE Plat SET nom = :nom WHERE id_plat = :id_plat";
-    $stmt = $this->pdo->prepare($query);
-    $stmt->bindParam(':id_plat', $id_plat, PDO::PARAM_INT);
-    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
 
-    return $stmt->execute();
+    public function editPlat(int $id_plat, string $nom_plat, ?string $lien_imageP): bool
+    {
+        // Préparez la requête SQL pour mettre à jour le plat
+        $sql = "UPDATE Plat SET nom = :nom, lien_imageP = :lien_imageP WHERE id_plat = :id_plat";
+        $stmt = $this->pdo->prepare($sql);
+        
+        // Liez les paramètres
+        $stmt->bindParam(':nom', $nom_plat, PDO::PARAM_STR);
+        $stmt->bindParam(':lien_imageP', $lien_imageP, PDO::PARAM_STR);
+        $stmt->bindParam(':id_plat', $id_plat, PDO::PARAM_INT);
+        
+        // Exécutez la requête
+        return $stmt->execute();
+    }
+
+    public function getAllPlats(): array
+    {
+        $query = "SELECT id_plat, nom, lien_imageP FROM Plat";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $plats = [];
+        foreach ($results as $result) {
+            $plats[] = new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
+        }
+
+        return $plats;
+    }
 }
-    
-}
+?>
