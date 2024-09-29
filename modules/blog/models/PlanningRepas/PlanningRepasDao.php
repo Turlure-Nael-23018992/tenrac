@@ -1,6 +1,6 @@
 <?php
 
-require_once '/home/nael/Documents/web/tenrac/modules/blog/models/PlanningRepas/PlanningRepas.php';
+require_once 'modules/blog/models/PlanningRepas/PlanningRepas.php';
 
 class PlanningRepasDAO {
     private $db;

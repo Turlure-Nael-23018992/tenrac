@@ -1,30 +1,42 @@
 <?php
+
 class DashboardPlat {
     private $plats;
+    private $platDao; // Ajout de la propriété DAO
 
-    public function __construct($plats) {
+    // Modifier le constructeur pour accepter une instance de DAO
+    public function __construct($plats, $platDao) {
         $this->plats = $plats;
+        $this->platDao = $platDao; // Initialisation de l'objet DAO
     }
 
     public function show(): void {
-        // Traitement du formulaire d'ajout de plat
+        // Gestion des requêtes POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérification si c'est le formulaire d'ajout
+            // Traitement de la recherche de plats
+            if (isset($_POST['search'])) {
+                $searchTerm = $_POST['search'];
+                // Appel de la fonction de recherche avec le terme saisi
+                $platsTrouves = $this->getPlatsParIngredients([$searchTerm]);
+                // Affichage des résultats
+                $this->afficherResultatsRecherche($platsTrouves, $searchTerm);
+            }
+            
+            // Traitement du formulaire d'ajout de plat
             if (isset($_POST['action']) && $_POST['action'] === 'add') {
-                $nom_plat = isset($_POST['nom_plat']) ? trim($_POST['nom_plat']) : '';
-                $lien_imageP = isset($_POST['lien_imageP']) ? trim($_POST['lien_imageP']) : null;
-
-                // Vérification des champs
+                $nom_plat = trim($_POST['nom_plat'] ?? '');
+                $lien_imageP = trim($_POST['lien_imageP'] ?? null);
+                
                 if (empty($nom_plat)) {
                     echo '<p class="error-message">Veuillez remplir tous les champs.</p>';
                 } else {
                     $this->addPlat($nom_plat, $lien_imageP);
                 }
             }
-            
-            // Vérification si c'est le formulaire de suppression
+
+            // Traitement du formulaire de suppression
             if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-                $id_plat = isset($_POST['id_plat']) ? trim($_POST['id_plat']) : null;
+                $id_plat = trim($_POST['id_plat'] ?? null);
 
                 if ($id_plat) {
                     $this->deletePlat($id_plat);
@@ -33,11 +45,11 @@ class DashboardPlat {
                 }
             }
 
-            // Vérification si c'est le formulaire de modification
+            // Traitement du formulaire de modification
             if (isset($_POST['action']) && $_POST['action'] === 'edit') {
-                $id_plat = isset($_POST['id_plat']) ? trim($_POST['id_plat']) : null;
-                $nom_plat = isset($_POST['nom_plat']) ? trim($_POST['nom_plat']) : '';
-                $lien_imageP = isset($_POST['lien_imageP']) ? trim($_POST['lien_imageP']) : null;
+                $id_plat = trim($_POST['id_plat'] ?? null);
+                $nom_plat = trim($_POST['nom_plat'] ?? '');
+                $lien_imageP = trim($_POST['lien_imageP'] ?? null);
 
                 if ($id_plat && !empty($nom_plat)) {
                     $this->editPlat($id_plat, $nom_plat, $lien_imageP);
@@ -47,6 +59,7 @@ class DashboardPlat {
             }
         }
 
+        // Affichage du formulaire et de la liste des plats
         ?>
         <main>
             <a href='/?page=dashboard' class="button">Retour au dashboard</a>
@@ -126,6 +139,15 @@ class DashboardPlat {
                         <button type="submit">Modifier</button>
                     </form>
                 </div>
+                <div>
+                <form action="" method="post">
+                        <input type="search" name="search" placeholder="Rechercher un plat">
+                        <button type="submit">Rechercher</button>
+                    </form>
+                    <div id="plat-rechercher">
+
+                    </div>
+                </div>
             </div>
         </main>
         <script>
@@ -144,36 +166,76 @@ class DashboardPlat {
         <?php
     }
 
+    // Méthode pour ajouter un plat
     private function addPlat($nom_plat, ?string $lien_imageP) {
-        $platDao = new PlatDao(Database::getInstance());
-
-        if ($platDao->addPlat($nom_plat, $lien_imageP)) {
+        if ($this->platDao->addPlat($nom_plat, $lien_imageP)) {
             echo '<p class="success-message">Le plat a été ajouté avec succès !</p>';
-            $this->plats = $platDao->getLastPlats(10);
+            $this->plats = $this->platDao->getLastPlats(10);
         } else {
             echo '<p class="error-message">Erreur lors de l\'ajout du plat.</p>';
         }
     }
 
+    // Méthode pour supprimer un plat
     private function deletePlat($id_plat) {
-        $platDao = new PlatDao(Database::getInstance());
-
-        if ($platDao->deletePlatById($id_plat)) {
+        if ($this->platDao->deletePlatById($id_plat)) {
             echo '<p class="success-message">Le plat a été supprimé avec succès !</p>';
-            $this->plats = $platDao->getLastPlats(10);
+            $this->plats = $this->platDao->getLastPlats(10);
         } else {
             echo '<p class="error-message">Erreur lors de la suppression du plat.</p>';
         }
     }
 
+    // Méthode pour modifier un plat
     private function editPlat($id_plat, $nom_plat, ?string $lien_imageP) {
-        $platDao = new PlatDao(Database::getInstance());
-
-        if ($platDao->editPlat($id_plat, $nom_plat, $lien_imageP)) {
+        if ($this->platDao->editPlat($id_plat, $nom_plat, $lien_imageP)) {
             echo '<p class="success-message">Le plat a été modifié avec succès !</p>';
-            $this->plats = $platDao->getLastPlats(10);
+            $this->plats = $this->platDao->getLastPlats(10);
         } else {
             echo '<p class="error-message">Erreur lors de la modification du plat.</p>';
+        }
+    }
+
+    // Méthode de recherche de plats par ingrédients
+    public function getPlatsParIngredients(array $ingredients = []): array {
+        $pdo = $this->platDao->getPdo(); // Récupération de l'objet PDO depuis le DAO
+    
+        $query = "SELECT DISTINCT p.id_plat, p.nom, p.lien_imageP 
+                  FROM Plat p 
+                  JOIN Plat_Ingredient pi ON p.id_plat = pi.id_plat
+                  JOIN Ingredient i ON pi.id_ingredient = i.id_ingredient";
+    
+        if (!empty($ingredients)) {
+            $placeholders = array_fill(0, count($ingredients), '?');
+            $query .= " WHERE i.nom IN (" . implode(',', $placeholders) . ")";
+        }
+    
+        // Préparer la requête avec l'objet PDO
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($ingredients);
+    
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $plats = [];
+        foreach ($results as $result) {
+            $plats[] = new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
+        }
+    
+        return $plats;
+    }
+    
+    // Méthode d'affichage des résultats de recherche
+    private function afficherResultatsRecherche(array $platsTrouves, string $searchTerm): void {
+        if (!empty($platsTrouves)) {
+            echo '<h2>Résultats de la recherche pour "' . htmlspecialchars($searchTerm) . '"</h2>';
+            foreach ($platsTrouves as $plat) {
+                echo '<div class="plat">';
+                echo '<h3>' . htmlspecialchars($plat->getNom()) . '</h3>';
+                echo '<img src="' . htmlspecialchars($plat->getLienImageP()) . '" alt="Image du plat">';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>Aucun plat trouvé pour "' . htmlspecialchars($searchTerm) . '"</p>';
         }
     }
 }

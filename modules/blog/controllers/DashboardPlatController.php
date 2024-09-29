@@ -13,7 +13,7 @@ class dashboardPlatController {
         $this->platDao = new PlatDao(Database::getInstance());
 
         $plats = $this->platDao->getAllPlats(); 
-        (new dashboardPlat($plats))->show(); 
+        (new dashboardPlat($plats, $this->platDao))->show(); 
     }
 
 }

@@ -112,5 +112,9 @@ class PlatDao
 
         return $plats;
     }
+    public function getPdo() {
+        return $this->pdo;
+    }
+
 }
 ?>
