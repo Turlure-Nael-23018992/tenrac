@@ -1,16 +1,154 @@
-* {
-    margin: 0;
-    padding: 0;
+.structure-main {
+    padding: 0 40px;
 }
 
-main {
+.clubs-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ordre {
+    color: #fff;
+    padding: 60px 0;
+    max-height: 250px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ordre img {
     width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.ordre h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff; 
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.clubs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.club {
+    background: linear-gradient(171deg, rgba(194, 49, 21, 1) 0%, rgba(85, 16, 39, 1) 100%);
+    width: 250px;
+    height: 150px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.club:last-child {
+    margin-bottom: 20px;
+}
+
+.club:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.club::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+    z-index: 1; 
+    opacity: 0;
+}
+
+.club:hover::before {
+    opacity: 1;
+}
+
+.club h2 {
+    color: #fff;
+    text-align: center;
+    z-index: 2; 
+    transition: opacity 0.3s ease;
+}
+
+.club:hover h2 {
+    opacity: 0.4; 
+    transition: opacity 0.3s ease;
+}
+
+.edit-btn {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 15px;
+    background-color: none;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 3; 
+    transition: opacity 0.3s ease;
+    opacity: 0; 
+}
+
+.club:hover .edit-btn {
+    opacity: 1;
+}
+
+
+.edit-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.edit-form form {
     display: flex;
     flex-direction: column;
 }
 
-.cont-h1 {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+.edit-form input[type="text"] {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.edit-form button {
+    background-color: rgb(194, 49, 21);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-form button:hover {
+    background-color: rgb(194, 49, 21);
 }

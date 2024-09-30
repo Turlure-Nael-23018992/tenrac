@@ -1,5 +1,6 @@
 const loginElement = document.getElementById("login");
 const cont_login = document.getElementById("cont_login");
+const container = document.querySelector(".formco-container")
 console.log('loginElement');
 cont_login.addEventListener("click", function(element) {
     if (getComputedStyle(loginElement).display ==  "flex" && !loginElement.contains(element.target)) {
@@ -12,9 +13,14 @@ cont_login.addEventListener("click", function(element) {
 function popup() {
     console.log(getComputedStyle(loginElement).display );
   if (getComputedStyle(loginElement).display === "flex") {
-    
+    cont_login.style.display = "none";
+    container.style.display = "none";
+    document.body.style.overflow = "auto";
     loginElement.style.display = "none"; 
   } else {
+    cont_login.style.display = "block";
+    container.style.display = "block";
+    document.body.style.overflow = "hidden";
     loginElement.style.display = "flex"; 
   }
 }

@@ -45,6 +45,6 @@ class Ordre
 
     public function __toString(): string
     {
-        return "Ordre ID: {$this->id_ordre}, Nom: {$this->nom}, Description: {$this->";
+        return "Ordre ID: {$this->id_ordre}, Nom: {$this->nom}, Description: {$this->description}";
     }
 }

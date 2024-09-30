@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: rgb(194,49,21);
+    background: rgb(194, 49, 21);
     background: linear-gradient(171deg, rgba(194,49,21,1) 0%, rgba(85,16,39,1) 100%);
     color: #fff2f1;
     padding: 2.5rem;
@@ -113,4 +113,10 @@ ion-icon:hover {
 .header.sticky .logo {
     transform: scale(0.8);
     transition: .3s
+}
+button {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }

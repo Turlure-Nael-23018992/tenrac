@@ -1,24 +1,25 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/login.css">
 </head>
-<section class="formco" id="login">
-    <h1>Connection</h1>
-    <form  action='modules/blog/models/loginProcess.php' method="post" class="form_login">
-        <div class="yousralapuff">
-            <div>
-                <label>Email </label>
-                <input name="courriel" id="courriel" type="text" maxlength="80" minlength="5"/>
-            </div>
-            
-            <div>
-                <label>Mot de passe </label>
-                <input name="mdp" id="mdp" type="password" minlength="1" maxlength="100"/></p>
-            </div>
-            
+<section class="formco-container">
+    <div class="formco" id="login">
+        <div class="logo-login-container">
+            <img src="/_assets/images/icons/icon.png" alt="logo" class="logo-login">
+            <h1>Se connecter</h1>
         </div>
-        
-
-        <button type="submit">Connect</button>
-    </form> 
+        <div class="form-container">
+            <form action='modules/blog/models/loginProcess.php' method="post" class="form_login">
+                    <label>
+                        Email :
+                        <input type="courriel" id="courriel" name="courriel" maxlength="80" placeholder="Entrez votre email"/>
+                    </label>
+                    <label>
+                        Email
+                        <input name="mdp" id="mdp" minlength="1" maxlength="100" type="password" placeholder="Enter your password"/>
+                    </label>
+                <button class="login-button" type="submit">Se connecter</button>
+            </form> 
+        </div>
+    </div>
 </section>
 <script src="/_assets/scripts/login.js"></script>

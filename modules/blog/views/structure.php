@@ -7,102 +7,54 @@ class Structure {
     }
 
     public function show(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['action']) && $_POST['action'] === 'add') {
-                $nom_club = isset($_POST['nom_club']) ? trim($_POST['nom_club']) : '';
-                $id_ordre = isset($_POST['id_ordre']) ? trim($_POST['id_ordre']) : '1'; // Valeur par défaut = 1
-
-                if (empty($nom_club) || empty($id_ordre)) {
-                    echo '<p class="error-message">Veuillez remplir tous les champs.</p>';
-                } else {
-                    $this->addClub($nom_club, $id_ordre);
-                }
-            }
-
-            if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-                $id_club = isset($_POST['id_club']) ? trim($_POST['id_club']) : null;
-                if (isset($id_club)) {
-                    $this->deleteClub($id_club);
-                } else {
-                    echo '<p class="error-message">Veuillez sélectionner un club à supprimer.</p>';
-                }
-            }
-
-            if (isset($_POST['action']) && $_POST['action'] === 'edit') {
-                $id_club = isset($_POST['id_club']) ? trim($_POST['id_club']) : null;
-                $nom_club = isset($_POST['nom_club']) ? trim($_POST['nom_club']) : '';
-                $id_ordre = isset($_POST['id_ordre']) ? trim($_POST['id_ordre']) : '1'; // Valeur par défaut = 1
-
-                if (isset($id_club)) {
-                    if (!empty($nom_club)) {
-                        $this->editClub($id_club, $nom_club, $id_ordre);
-                    } else {
-                        echo '<p class="error-message">Veuillez remplir tous les champs.</p>';
-                    }
-                }
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit') {
+            $this->editClub($_POST['id_club'], $_POST['nom_club'], $_POST['id_ordre']);
         }
+
         include 'header.php';
         ?>
-        <main>
-            <div class="clubs">
-                <h1>Nos Clubs</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Club</th>
-                            <th>Nom</th>
-                            <th>Ordre</th>
-                            <?php if (isset($_SESSION['email'])) { ?>
-                            <th>Actions</th>
-                            <?php } ?>  
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($this->clubs as $club): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($club->getIdClub()) ?></td>
-                                <td><?= htmlspecialchars($club->getNom()) ?></td>
-                                <td>Ordre des Tenrac</td>
-                                <?php if (isset($_SESSION['email'])) { ?>
-                                <td>
-                                    <form method="POST" action="" style="display:inline;">
-                                        <input type="hidden" name="action" value="edit">
-                                        <input type="hidden" name="id_club" value="<?= htmlspecialchars($club->getIdClub()) ?>">
-                                        <input type="text" name="nom_club" value="<?= htmlspecialchars($club->getNom()) ?>" required>
-                                        <input type="hidden" name="id_ordre" value="1">
-                                        <button type="submit">Modifier</button>
-                                    </form>
-                                    <form method="POST" action="" style="display:inline;">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="id_club" value="<?= htmlspecialchars($club->getIdClub()) ?>">
-                                        <button type="submit">Supprimer</button>
-                                    </form>
-                                </td>
-                                <?php } ?>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <?php if(isset($_SESSION['email'])) { ?>
-                <div class="add-club">
-                    <h2>Ajouter un club</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="add">
-                        <label for="nom_club">Nom du club :</label>
-                        <input type="text" id="nom_club" name="nom_club" required>
-
-                        <label for="id_ordre">Ordre :</label>
-                        <select id="id_ordre" name="id_ordre" disabled>
-                            <option value="1">Ordre des Tenrac</option>
-                        </select>
-
-                        <button type="submit">Ajouter</button>
-                    </form>
+        <head>
+            <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
+            <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
+        </head>
+        <main class="structure-main">
+            <div class="clubs-container">
+                <div class="ordre">
+                    <h1>Ordre des Tenracs</h1>
+                    <img src="_assets/images/icons/subheader.jpg" alt="Ordre des Tenracs" />
                 </div>
-                <?php } ?>
+            </div>
+            <div class="clubs">
+                <?php foreach ($this->clubs as $club): ?>
+                    <div class="club">
+                        <h2><?= htmlspecialchars($club->getNom()) ?></h2>
+
+                        <?php if (isset($_SESSION['email'])): ?>
+                            <button class="edit-btn" onclick="openEditForm(<?= htmlspecialchars($club->getIdClub()) ?>, '<?= htmlspecialchars($club->getNom()) ?>')"><ion-icon name="create-outline">Modifier</ion-icon></button>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </main>
+        <?php include_once "footer.php" ?>
+        <div id="editForm" class="edit-form" style="display:none;">
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" id="editClubId" name="id_club">
+                <label for="editClubName">Nom du club :</label>
+                <input type="text" id="editClubName" name="nom_club" required>
+                <input type="hidden" name="id_ordre" value="1">
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+
+        <script>
+            function openEditForm(id, name) {
+                document.getElementById('editClubId').value = id;
+                document.getElementById('editClubName').value = name;
+                document.getElementById('editForm').style.display = 'block';
+            }
+        </script>
         <?php
     }
 

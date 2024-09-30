@@ -28,7 +28,7 @@
         </form>
         <?php } else { ?>
             <button onclick="popup()" id="toggleButton">
-                Se Connecter
+                <ion-icon name="log-in-outline">Se déconnecter</ion-icon> 
             </button>
         <?php } ?>
     </div>
