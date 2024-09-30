@@ -60,13 +60,10 @@ class PlatPage {
         }
 
         // Affichage du formulaire et de la liste des plats
-        include 'header.php'
+        include 'header.php';
         ?>
         
         <main>
-            <a href='/?page=dashboard' class="button">Retour au dashboard</a>
-            <a href='?page=dashboardClub' class="button">Gérer les clubs</a>
-            <a href='?page=dashboardTenrac' class="button">Gérer les Tenracs</a>
             <div class="plats">
                 <h1>Nos Plats</h1>
                 <table>
@@ -76,6 +73,9 @@ class PlatPage {
                             <th>Nom</th>
                             <th>Lien Image</th>
                             <th>Ordre</th>
+                            <?php if (isset($_SESSION['email'])) { ?>
+                            <th>Actions</th>
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +85,22 @@ class PlatPage {
                                 <td><?= htmlspecialchars($plat->getNom()) ?></td>
                                 <td><?= htmlspecialchars($plat->getLienImageP() ?? 'Aucun') ?></td>
                                 <td>Ordre des Tenrac</td>
+                                <?php if (isset($_SESSION['email'])) { ?>
+                                <td>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="edit">
+                                        <input type="hidden" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
+                                        <input type="text" name="nom_plat" value="<?= htmlspecialchars($plat->getNom()) ?>" required>
+                                        <input type="text" name="lien_imageP" value="<?= htmlspecialchars($plat->getLienImageP()) ?>">
+                                        <button type="submit">Modifier</button>
+                                    </form>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
+                                        <button type="submit">Supprimer</button>
+                                    </form>
+                                </td>
+                                <?php } ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -103,47 +119,9 @@ class PlatPage {
                         <button type="submit">Ajouter</button>
                     </form>
                 </div>
-
-                <div class="delete-plat">
-                    <h2>Supprimer un plat</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="delete">
-                        <label for="id_plat">ID du plat à supprimer :</label>
-                        <select id="id_plat" name="id_plat" required>
-                            <option value="">Sélectionner un plat</option>
-                            <?php foreach ($this->plats as $plat): ?>
-                                <option value="<?= htmlspecialchars($plat->getIdPlat()) ?>"><?= htmlspecialchars($plat->getNom()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <button type="submit">Supprimer</button>
-                    </form>
-                </div>
-
-                <div class="edit-plat">
-                    <h2>Modifier un plat</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="edit">
-                        <label for="id_plat">ID du plat à modifier :</label>
-                        <select id="id_plat" name="id_plat" required onchange="loadPlatData(this.value)">
-                            <option value="">Sélectionner un plat</option>
-                            <?php foreach ($this->plats as $plat): ?>
-                                <option value="<?= htmlspecialchars($plat->getIdPlat()) ?>"><?= htmlspecialchars($plat->getNom()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <label for="nom_plat">Nom du plat :</label>
-                        <input type="text" id="nom_plat" name="nom_plat" required>
-
-                        <label for="lien_imageP">Lien de l'image :</label>
-                        <input type="text" id="lien_imageP" name="lien_imageP">
-
-                        <button type="submit">Modifier</button>
-                    </form>
-                </div>
                 <?php } ?>
                 <div>
-                <form action="" method="post">
+                    <form action="" method="post">
                         <input type="search" name="search" placeholder="Rechercher un plat">
                         <button type="submit">Rechercher</button>
                     </form>
@@ -154,17 +132,8 @@ class PlatPage {
             </div>
         </main>
         <script>
-            function loadPlatData(id) {
-                const plats = <?= json_encode($this->plats) ?>;
-                const plat = plats.find(plat => plat.id === id);
-                if (plat) {
-                    document.getElementById('nom_plat').value = plat.nom;
-                    document.getElementById('lien_imageP').value = plat.lien_imageP;
-                } else {
-                    document.getElementById('nom_plat').value = '';
-                    document.getElementById('lien_imageP').value = '';
-                }
-            }
+            // La fonction de chargement des données du plat n'est plus nécessaire
+            // car les champs de modification sont directement dans le tableau.
         </script>
         <?php
     }

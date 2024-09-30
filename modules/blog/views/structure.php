@@ -45,9 +45,6 @@ class Structure {
         include 'header.php';
         ?>
         <main>
-            <a href='/?page=dashboard' class="button">Retour au dashboard</a>
-            <a href='?page=dashboardPlat' class="button">Gérer les plats</a>
-            <a href='?page=dashboardTenrac' class="button">Gérer les Tenracs</a>
             <div class="clubs">
                 <h1>Nos Clubs</h1>
                 <table>
@@ -56,6 +53,9 @@ class Structure {
                             <th>ID Club</th>
                             <th>Nom</th>
                             <th>Ordre</th>
+                            <?php if (isset($_SESSION['email'])) { ?>
+                            <th>Actions</th>
+                            <?php } ?>  
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +64,22 @@ class Structure {
                                 <td><?= htmlspecialchars($club->getIdClub()) ?></td>
                                 <td><?= htmlspecialchars($club->getNom()) ?></td>
                                 <td>Ordre des Tenrac</td>
+                                <?php if (isset($_SESSION['email'])) { ?>
+                                <td>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="edit">
+                                        <input type="hidden" name="id_club" value="<?= htmlspecialchars($club->getIdClub()) ?>">
+                                        <input type="text" name="nom_club" value="<?= htmlspecialchars($club->getNom()) ?>" required>
+                                        <input type="hidden" name="id_ordre" value="1">
+                                        <button type="submit">Modifier</button>
+                                    </form>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id_club" value="<?= htmlspecialchars($club->getIdClub()) ?>">
+                                        <button type="submit">Supprimer</button>
+                                    </form>
+                                </td>
+                                <?php } ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -84,60 +100,9 @@ class Structure {
                         <button type="submit">Ajouter</button>
                     </form>
                 </div>
-
-                <div class="delete-club">
-                    <h2>Supprimer un club</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="delete">
-                        <label for="id_club">ID du club à supprimer :</label>
-                        <select id="id_club" name="id_club" required>
-                            <option value="">Sélectionner un club</option>
-                            <?php foreach ($this->clubs as $club): ?>
-                                <option value="<?= htmlspecialchars($club->getIdClub()) ?>"><?= htmlspecialchars($club->getNom()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <button type="submit">Supprimer</button>
-                    </form>
-                </div>
-
-                <div class="edit-club">
-                    <h2>Modifier un club</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="edit">
-                        <label for="id_club">ID du club à modifier :</label>
-                        <select id="id_club" name="id_club" required onchange="loadClubData(this.value)">
-                            <option value="">Sélectionner un club</option>
-                            <?php foreach ($this->clubs as $club): ?>
-                                <option value="<?= htmlspecialchars($club->getIdClub()) ?>"><?= htmlspecialchars($club->getNom()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <label for="nom_club">Nom du club :</label>
-                        <input type="text" id="nom_club" name="nom_club" required>
-
-                        <label for="id_ordre">Ordre :</label>
-                        <select id="id_ordre" name="id_ordre" disabled>
-                            <option value="1">Ordre des Tenrac</option>
-                        </select>
-
-                        <button type="submit">Modifier</button>
-                    </form>
-                </div>
                 <?php } ?>
             </div>
         </main>
-        <script>
-            function loadClubData(id) {
-                const clubs = <?= json_encode($this->clubs) ?>;
-                const club = clubs.find(club => club.id === id);
-                if (club) {
-                    document.getElementById('nom_club').value = club.nom;
-                } else {
-                    document.getElementById('nom_club').value = '';
-                }
-            }
-        </script>
         <?php
     }
 

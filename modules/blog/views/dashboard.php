@@ -5,7 +5,8 @@ class Dashboard{
         $this->repas = $r;
     }
     public function show():void{
-        echo 'bienvenue sur le dashboard';?>
+        echo 'bienvenue sur le dashboard';
+        include 'header.php';?>
         <a href='/?page=plats' class="button">aller voir les plats</a><?php
         foreach ($this->repas as $repas) {
             echo "<div>";

@@ -1,5 +1,5 @@
 <?php
-class RepasPage { //A METTRE DANS DASHBOARD
+class RepasPage { 
     private $repas;
 
     public function __construct($repas) {
@@ -26,12 +26,10 @@ class RepasPage { //A METTRE DANS DASHBOARD
             
             // Vérification si c'est le formulaire de suppression
             if (isset($_POST['action']) && $_POST['action'] === 'delete') {
-                $adresse = isset($_POST['adresse']) ? trim($_POST['adresse']) : '';
                 $id_repas = isset($_POST['id_repas']) ? (int)$_POST['id_repas'] : null;
-                $date_repas = isset($_POST['date_repas']) ? trim($_POST['date_repas']) : '';
 
-                if ($adresse && $id_repas && $date_repas) {
-                    $this->deleteRepas($adresse, $id_repas, $date_repas);
+                if ($id_repas) {
+                    $this->deleteRepas($id_repas);
                 } else {
                     echo '<p class="error-message">Veuillez sélectionner un repas à supprimer.</p>';
                 }
@@ -54,10 +52,6 @@ class RepasPage { //A METTRE DANS DASHBOARD
         include 'header.php';
         ?>
         <main>
-            <a href='/?page=dashboard' class="button">Retour au dashboard</a>
-            <a href='?page=dashboardClub' class="button">Gérer les clubs</a>
-            <a href='?page=dashboardPlat' class="button">Gérer les plats</a>
-            <a href='?page=dashboardTenrac' class="button">Gérer les Tenracs</a>
             <div class="repas">
                 <h1>Nos Repas</h1>
                 <table>
@@ -67,6 +61,9 @@ class RepasPage { //A METTRE DANS DASHBOARD
                             <th>Date</th>
                             <th>ID Repas</th>
                             <th>Horaire</th>
+                            <?php if (isset($_SESSION['email'])) { ?>
+                            <th>Actions</th>
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +73,23 @@ class RepasPage { //A METTRE DANS DASHBOARD
                                 <td><?= htmlspecialchars($repas->getDateRepas()) ?></td>
                                 <td><?= htmlspecialchars($repas->getIdRepas()) ?></td>
                                 <td><?= htmlspecialchars($repas->getHoraire()) ?></td>
+                                <?php if (isset($_SESSION['email'])) { ?>
+                                <td>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="edit">
+                                        <input type="hidden" name="id_repas" value="<?= htmlspecialchars($repas->getIdRepas()) ?>">
+                                        <input type="text" name="adresse" value="<?= htmlspecialchars($repas->getAdresse()) ?>" required>
+                                        <input type="date" name="date_repas" value="<?= htmlspecialchars($repas->getDateRepas()) ?>" required>
+                                        <input type="text" name="horaire" value="<?= htmlspecialchars($repas->getHoraire()) ?>" required>
+                                        <button type="submit">Modifier</button>
+                                    </form>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id_repas" value="<?= htmlspecialchars($repas->getIdRepas()) ?>">
+                                        <button type="submit">Supprimer</button>
+                                    </form>
+                                </td>
+                                <?php } ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -100,43 +114,6 @@ class RepasPage { //A METTRE DANS DASHBOARD
                         <button type="submit">Ajouter</button>
                     </form>
                 </div>
-
-                <div class="delete-repas">
-                    <h2>Supprimer un repas</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="delete">
-                        <label for="adresse">Adresse du repas à supprimer :</label>
-                        <input type="text" id="adresse" name="adresse" required>
-
-                        <label for="id_repas">ID du repas :</label>
-                        <input type="number" id="id_repas" name="id_repas" required>
-
-                        <label for="date_repas">Date du repas :</label>
-                        <input type="date" id="date_repas" name="date_repas" required>
-
-                        <button type="submit">Supprimer</button>
-                    </form>
-                </div>
-
-                <div class="edit-repas">
-                    <h2>Modifier un repas</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="edit">
-                        <label for="adresse">Adresse du repas à modifier :</label>
-                        <input type="text" id="adresse" name="adresse" required>
-
-                        <label for="date_repas">Date du repas :</label>
-                        <input type="date" id="date_repas" name="date_repas" required>
-
-                        <label for="id_repas">ID du repas :</label>
-                        <input type="number" id="id_repas" name="id_repas" required>
-
-                        <label for="horaire">Horaire :</label>
-                        <input type="text" id="horaire" name="horaire" required>
-
-                        <button type="submit">Modifier</button>
-                    </form>
-                </div>
                 <?php } ?>
             </div>
         </main>
@@ -154,10 +131,10 @@ class RepasPage { //A METTRE DANS DASHBOARD
         }
     }
 
-    private function deleteRepas($adresse, $id_repas, $date_repas): void {
+    private function deleteRepas($id_repas): void {
         $planningRepasDao = new PlanningRepasDAO(Database::getInstance());
 
-        if ($planningRepasDao->deletePlanningRepas($id_repas)) { // Assurez-vous que vous utilisez l'ID ici
+        if ($planningRepasDao->deletePlanningRepas($id_repas)) {
             echo '<p class="success-message">Le repas a été supprimé avec succès !</p>';
             $this->repas = $planningRepasDao->getAllPlanningRepas();
         } else {
@@ -168,7 +145,7 @@ class RepasPage { //A METTRE DANS DASHBOARD
     private function editRepas($adresse, $date_repas, $id_repas, $horaire): void {
         $planningRepasDao = new PlanningRepasDAO(Database::getInstance());
 
-        if ($planningRepasDao->updatePlanningRepas($id_repas, $adresse, $date_repas, $id_repas, $horaire)) {
+        if ($planningRepasDao->updatePlanningRepas($id_repas, $adresse, $date_repas, $horaire)) {
             echo '<p class="success-message">Le repas a été modifié avec succès !</p>';
             $this->repas = $planningRepasDao->getAllPlanningRepas();
         } else {

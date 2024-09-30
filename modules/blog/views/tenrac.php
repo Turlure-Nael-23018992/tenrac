@@ -60,10 +60,6 @@ class TenracPage {
         include 'header.php';
         ?>
         <main>
-            <a href='/?page=dashboard' class="button">Retour au dashboard</a>
-            <a href='?page=dashboardRepas' class="button">Gérer les repas</a>
-            <a href='?page=dashboardClub' class="button">Gérer les clubs</a>
-            <a href='?page=dashboardPlat' class="button">Gérer les plats</a>
             <div class="tenracs">
                 <h1>Nos Tenracs</h1>
                 <table>
@@ -75,8 +71,11 @@ class TenracPage {
                             <th>Téléphone</th>
                             <th>Adresse</th>
                             <th>Grade</th>
-                            <th>ID Club</th> <!-- Ajout de la colonne ID Club -->
-                            <th>ID Ordre</th> <!-- Ajout de la colonne ID Ordre -->
+                            <th>ID Club</th>
+                            <th>ID Ordre</th>
+                            <?php if (isset($_SESSION['email'])) { ?>
+                            <th>Actions</th> 
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,8 +87,29 @@ class TenracPage {
                                 <td><?= htmlspecialchars($tenrac->getTel()) ?></td>
                                 <td><?= htmlspecialchars($tenrac->getAdresse()) ?></td>
                                 <td><?= htmlspecialchars($tenrac->getGrade()) ?></td>
-                                <td><?= htmlspecialchars($tenrac->getIdClub()) ?></td> <!-- Affichage de ID Club -->
-                                <td><?= htmlspecialchars($tenrac->getIdOrdre()) ?></td> <!-- Affichage de ID Ordre -->
+                                <td><?= htmlspecialchars($tenrac->getIdClub()) ?></td>
+                                <td><?= htmlspecialchars($tenrac->getIdOrdre()) ?></td>
+                                <?php if (isset($_SESSION['email'])) { ?>
+                                <td>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="edit">
+                                        <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
+                                        <input type="text" name="nom" value="<?= htmlspecialchars($tenrac->getNom()) ?>" required>
+                                        <input type="email" name="couriel" value="<?= htmlspecialchars($tenrac->getCouriel()) ?>" required>
+                                        <input type="text" name="tel" value="<?= htmlspecialchars($tenrac->getTel()) ?>" required>
+                                        <input type="text" name="adresse" value="<?= htmlspecialchars($tenrac->getAdresse()) ?>" required>
+                                        <input type="text" name="grade" value="<?= htmlspecialchars($tenrac->getGrade()) ?>" required>
+                                        <input type="number" name="id_club" value="<?= htmlspecialchars($tenrac->getIdClub()) ?>" required>
+                                        <input type="number" name="id_ordre" value="<?= htmlspecialchars($tenrac->getIdOrdre()) ?>" required>
+                                        <button type="submit">Modifier</button>
+                                    </form>
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
+                                        <button type="submit">Supprimer</button>
+                                    </form>
+                                </td>
+                                <?php } ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -123,87 +143,9 @@ class TenracPage {
                         <button type="submit">Ajouter</button>
                     </form>
                 </div>
-
-                <div class="delete-tenrac">
-                    <h2>Supprimer un tenrac</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="delete">
-                        <label for="id_tenrac">ID du tenrac à supprimer :</label>
-                        <select id="id_tenrac" name="id_tenrac" required>
-                            <option value="">Sélectionner un tenrac</option>
-                            <?php foreach ($this->tenracs as $tenrac): ?>
-                                <option value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>"><?= htmlspecialchars($tenrac->getNom()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <button type="submit">Supprimer</button>
-                    </form>
-                </div>
-
-                <div class="edit-tenrac">
-                    <h2>Modifier un tenrac</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="edit">
-                        <label for="id_tenrac">ID du tenrac à modifier :</label>
-                        <select id="id_tenrac" name="id_tenrac" required onchange="loadTenracData(this.value)">
-                            <option value="">Sélectionner un tenrac</option>
-                            <?php foreach ($this->tenracs as $tenrac): ?>
-                                <option value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>"><?= htmlspecialchars($tenrac->getNom()) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <label for="nom">Nom du tenrac :</label>
-                        <input type="text" id="nom" name="nom" required>
-
-                        <label for="couriel">Couriel :</label>
-                        <input type="email" id="couriel" name="couriel" required>
-
-                        <label for="tel">Téléphone :</label>
-                        <input type="text" id="tel" name="tel" required>
-
-                        <label for="adresse">Adresse :</label>
-                        <input type="text" id="adresse" name="adresse" required>
-
-                        <label for="grade">Grade :</label>
-                        <input type="text" id="grade" name="grade" required>
-
-                        <label for="id_club">ID Club :</label>
-                        <input type="number" id="id_club" name="id_club" required>
-
-                        <label for="id_ordre">ID Ordre :</label>
-                        <input type="number" id="id_ordre" name="id_ordre" required>
-
-                        <button type="submit">Modifier</button>
-                    </form>
-                </div>
                 <?php } ?>
             </div>
         </main>
-        <script>
-            function loadTenracData(id) {
-                const tenracs = <?= json_encode($this->tenracs) ?>;
-                const tenrac = tenracs.find(tenrac => tenrac.id_tenrac == id);
-
-                if (tenrac) {
-                    document.getElementById('nom').value = tenrac.nom;
-                    document.getElementById('couriel').value = tenrac.couriel;
-                    document.getElementById('tel').value = tenrac.tel;
-                    document.getElementById('adresse').value = tenrac.adresse;
-                    document.getElementById('grade').value = tenrac.grade;
-                    document.getElementById('id_club').value = tenrac.id_club;
-                    document.getElementById('id_ordre').value = tenrac.id_ordre;
-                } else {
-                    document.getElementById('nom').value = '';
-                    document.getElementById('couriel').value = '';
-                    document.getElementById('tel').value = '';
-                    document.getElementById('adresse').value = '';
-                    document.getElementById('grade').value = '';
-                    document.getElementById('id_club').value = '';
-                    document.getElementById('id_ordre').value = '';
-                }
-            }
-        </script>
-
         <?php
     }
 
