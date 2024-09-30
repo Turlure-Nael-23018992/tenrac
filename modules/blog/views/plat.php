@@ -13,14 +13,7 @@ class PlatPage {
     public function show(): void {
         // Gestion des requêtes POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Traitement de la recherche de plats
-            if (isset($_POST['search'])) {
-                $searchTerm = $_POST['search'];
-                // Appel de la fonction de recherche avec le terme saisi
-                $platsTrouves = $this->getPlatsParIngredients([$searchTerm]);
-                // Affichage des résultats
-                $this->afficherResultatsRecherche($platsTrouves, $searchTerm);
-            }
+            
             
             // Traitement du formulaire d'ajout de plat
             if (isset($_POST['action']) && $_POST['action'] === 'add') {
@@ -126,7 +119,22 @@ class PlatPage {
                         <button type="submit">Rechercher</button>
                     </form>
                     <div id="plat-rechercher">
-
+                        <?php
+                        if (isset($_POST['search'])) {
+                            $searchTerm = $_POST['search'];
+                            $platsTrouves = $this->getPlatsParIngredients([$searchTerm]);
+                            if (!empty($platsTrouves)) {
+                                echo '<h2>Résultats de la recherche pour "' . htmlspecialchars($searchTerm) . '"</h2>';
+                                foreach ($platsTrouves as $plat) {
+                                    echo '<div class="plat">';
+                                    echo '<h3>' . htmlspecialchars($plat->getNom()) . '</h3>';
+                                    echo '<img src="' . htmlspecialchars($plat->getLienImageP()) . '" alt="Image du plat">';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p>Aucun plat trouvé pour "' . htmlspecialchars($searchTerm) . '"</p>';
+                            }
+                        } ?>
                     </div>
                 </div>
             </div>
@@ -170,45 +178,14 @@ class PlatPage {
 
     // Méthode de recherche de plats par ingrédients
     public function getPlatsParIngredients(array $ingredients = []): array {
-        $pdo = $this->platDao->getPdo(); // Récupération de l'objet PDO depuis le DAO
-    
-        $query = "SELECT DISTINCT p.id_plat, p.nom, p.lien_imageP 
-                  FROM Plat p 
-                  JOIN Plat_Ingredient pi ON p.id_plat = pi.id_plat
-                  JOIN Ingredient i ON pi.id_ingredient = i.id_ingredient";
-    
-        if (!empty($ingredients)) {
-            $placeholders = array_fill(0, count($ingredients), '?');
-            $query .= " WHERE i.nom IN (" . implode(',', $placeholders) . ")";
-        }
-    
-        // Préparer la requête avec l'objet PDO
-        $stmt = $pdo->prepare($query);
-        $stmt->execute($ingredients);
-    
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-        $plats = [];
-        foreach ($results as $result) {
-            $plats[] = new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
-        }
-    
-        return $plats;
-    }
-    
-    // Méthode d'affichage des résultats de recherche
-    private function afficherResultatsRecherche(array $platsTrouves, string $searchTerm): void {
-        if (!empty($platsTrouves)) {
-            echo '<h2>Résultats de la recherche pour "' . htmlspecialchars($searchTerm) . '"</h2>';
-            foreach ($platsTrouves as $plat) {
-                echo '<div class="plat">';
-                echo '<h3>' . htmlspecialchars($plat->getNom()) . '</h3>';
-                echo '<img src="' . htmlspecialchars($plat->getLienImageP()) . '" alt="Image du plat">';
-                echo '</div>';
-            }
+        if ($this->platDao->getPlatsParIngredients($ingredients)) {
+            return $this->platDao->getPlatsParIngredients($ingredients);
         } else {
-            echo '<p>Aucun plat trouvé pour "' . htmlspecialchars($searchTerm) . '"</p>';
+            echo '<p class="error-message">Erreur lors de la recherche des plats.</p>';
         }
+        
     }
+    
+    
 }
 ?>

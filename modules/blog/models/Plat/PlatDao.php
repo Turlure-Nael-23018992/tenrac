@@ -115,6 +115,31 @@ class PlatDao
     public function getPdo() {
         return $this->pdo;
     }
+    public function getPlatsParIngredients(array $ingredients = []): array {
+    
+        $query = "SELECT DISTINCT p.id_plat, p.nom, p.lien_imageP 
+                  FROM Plat p 
+                  JOIN Plat_Ingredient pi ON p.id_plat = pi.id_plat
+                  JOIN Ingredient i ON pi.id_ingredient = i.id_ingredient";
+    
+        if (!empty($ingredients)) {
+            $placeholders = array_fill(0, count($ingredients), '?');
+            $query .= " WHERE i.nom IN (" . implode(',', $placeholders) . ")";
+        }
+    
+        // Préparer la requête avec l'objet PDO
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($ingredients);
+    
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $plats = [];
+        foreach ($results as $result) {
+            $plats[] = new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
+        }
+    
+        return $plats;
+    }
     
 
 }
