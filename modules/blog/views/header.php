@@ -22,7 +22,7 @@
         ?>
         <form method="POST" action="/_assets/includes/logout.php">
             <button type="submit" class="logout-button">
-                <ion-icon name="log-out-outline"></ion-icon> Se déconnecter
+                <ion-icon name="log-out-outline">Se déconnecter</ion-icon> 
             </button>
         </form>
         <?php } else { ?>
