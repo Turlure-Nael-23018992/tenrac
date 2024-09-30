@@ -9,7 +9,6 @@ class Homepage{
 ?>
 <head>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
 </head>
 <body>
@@ -36,8 +35,6 @@ class Homepage{
 </main>
 <?php include_once 'footer.php'; ?>
 </body>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <?php
     }
 }
