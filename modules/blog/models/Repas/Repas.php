@@ -5,15 +5,15 @@ class Repas
     private int $id_repas;
     private string $nom;
 
-    public function __construct(int $id, string $nom)
+    public function __construct(int $id_repas, string $nom)
     {
-        $this->id_repas = $id;
+        $this->id_repas = $id_repas;
         $this->nom = $nom;
     }
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->id_repas;
     }
 
     public function getNom(): string
@@ -26,9 +26,9 @@ class Repas
         return $this->id_repas;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id_repas): void
     {
-        $this->id = $id;
+        $this->id_repas = $id_repas;
     }
 
     public function setNom(string $nom): void
@@ -38,6 +38,6 @@ class Repas
 
     public function __toString(): string
     {
-        return "Repas ID: {$this->id}, Nom: {$this->nom}";
+        return "Repas ID: {$this->id_repas}, Nom: {$this->nom}";
     }
 }
