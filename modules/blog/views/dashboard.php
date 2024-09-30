@@ -6,7 +6,7 @@ class Dashboard{
     }
     public function show():void{
         echo 'bienvenue sur le dashboard';?>
-        <a href='/?page=dashboardPlat' class="button">aller voir les plats</a><?php
+        <a href='/?page=plats' class="button">aller voir les plats</a><?php
         foreach ($this->repas as $repas) {
             echo "<div>";
             echo "<h1>" . htmlspecialchars($repas->getId()) . "</h1>";

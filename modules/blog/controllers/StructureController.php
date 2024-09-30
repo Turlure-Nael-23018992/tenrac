@@ -6,9 +6,9 @@ require_once '_assets/includes/database.php';
 class StructureController {
 
     public function execute(): void {
-        
-        $clubDao = new ClubDao(Database::getInstance());
-        $club = $clubDao->getLastClubs(10);
-        (new Structure($club))->show(); 
+        $this->clubDao = new ClubDao(Database::getInstance());
+
+        $clubs = $this->clubDao->getAllClubs(); 
+        (new Structure($clubs))->show(); 
     }
 }

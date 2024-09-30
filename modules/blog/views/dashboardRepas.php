@@ -1,5 +1,5 @@
 <?php
-class DashboardRepas {
+class DashboardRepas { //A METTRE DANS DASHBOARD
     private $repas;
 
     public function __construct($repas) {
