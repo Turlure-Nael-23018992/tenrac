@@ -1,6 +1,6 @@
 <?php
 
-class DashboardTenrac {
+class TenracPage {
     private array $tenracs;
 
     public function __construct(array $tenracs) {
@@ -57,7 +57,7 @@ class DashboardTenrac {
                 }
             }
         }
-
+        include 'header.php';
         ?>
         <main>
             <a href='/?page=dashboard' class="button">Retour au dashboard</a>
@@ -94,7 +94,7 @@ class DashboardTenrac {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-
+                <?php if (isset($_SESSION['email'])) { ?>
                 <div class="add-tenrac">
                     <h2>Ajouter un tenrac</h2>
                     <form method="POST" action="">
@@ -176,6 +176,7 @@ class DashboardTenrac {
                         <button type="submit">Modifier</button>
                     </form>
                 </div>
+                <?php } ?>
             </div>
         </main>
         <script>

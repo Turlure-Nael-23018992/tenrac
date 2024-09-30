@@ -1,18 +1,18 @@
 <?php
-require_once 'modules/blog/views/repas.php';
-require_once 'modules/blog/models/Repas/RepasDao.php';
-require_once '_assets/includes/database.php';
 
-class RepasController{
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    private $repasDao;
+require_once __DIR__ . '/../views/repas.php';
+require_once __DIR__ . '/../models/PlanningRepas/PlanningRepasDao.php';
+require_once __DIR__ . '/../../../_assets/includes/database.php';
 
-    public function __construct() {
-        $this->repasDao = new RepasDao(Database::getInstance());
-    }
+class RepasController {
 
-    public function execute() {
-        $repas = $this->repasDao->getLastRepas(5); 
+    public function execute(): void {
+        $this->planningRepasDao = new PlanningRepasDAO(Database::getInstance());
+
+        $repas = $this->planningRepasDao->getAllPlanningRepas(); 
         (new RepasPage($repas))->show(); 
     }
 }

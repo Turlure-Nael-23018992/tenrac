@@ -1,17 +1,18 @@
 <?php
 
-require_once __DIR__ . '/_assets/includes/database.php';
-require_once __DIR__ .'../models/Tenrac/TenracDao.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-class TenracController
-{
+require_once __DIR__ . '/../views/tenrac.php';
+require_once __DIR__ . '/../models/Tenrac/TenracDao.php';
+require_once __DIR__ . '/../../../_assets/includes/database.php';
 
-    public function execute(): void
-    {
-        $TenracDao = new TenracDao(DatabaseConnection::getInstance());
-        $Tenrac = $TenracDao->getTenracById(1);
+class TenracController {
+    public function execute(): void {
+        $this->tenracDao = new TenracDao(Database::getInstance());
+
+        $tenracs = $this->tenracDao->getAllTenracs(); 
+        (new TenracPage($tenracs))->show(); 
     }
-
 }
-
 ?>

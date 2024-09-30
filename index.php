@@ -5,8 +5,7 @@ require_once __DIR__ . '/modules/blog/controllers/StructureController.php';
 require_once __DIR__ . '/modules/blog/controllers/PlatController.php'; 
 require_once __DIR__ . '/modules/blog/controllers/RepasController.php';
 require_once __DIR__ . '/modules/blog/controllers/DashboardController.php';
-require_once __DIR__ . '/modules/blog/controllers/DashboardTenracController.php';
-require_once __DIR__ . '/modules/blog/controllers/DashboardRepasController.php';
+require_once __DIR__ . '/modules/blog/controllers/TenracController.php';
 
 function loadPage($page, PDO $pdo) {
     switch ($page) {
@@ -26,17 +25,14 @@ function loadPage($page, PDO $pdo) {
             require_once __DIR__ . '/modules/blog/views/repas.php';
             (new RepasController())->execute();
             break;
+        
         case 'dashboard':
             require_once __DIR__ . '/modules/blog/views/dashboard.php';
             (new DashboardController())->execute();
             break;
-        case 'dashboardTenrac':
-            require_once __DIR__ . '/modules/blog/views/dashboardTenrac.php';
-            (new DashboardTenracController())->execute();
-            break;
-        case 'dashboardRepas':
-            require_once __DIR__ . '/modules/blog/views/dashboardRepas.php';
-            (new DashboardRepasController())->execute();
+        case 'tenrac':
+            require_once __DIR__ . '/modules/blog/views/tenrac.php';
+            (new TenracController())->execute();
             break;
         default:
             echo '404';

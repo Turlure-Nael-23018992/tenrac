@@ -1,6 +1,6 @@
 <?php
 
-class DashboardPlat {
+class PlatPage {
     private $plats;
     private $platDao; // Ajout de la propriété DAO
 

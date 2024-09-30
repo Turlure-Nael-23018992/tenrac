@@ -16,6 +16,6 @@ class PlatController {
         $this->platDao = new PlatDao(Database::getInstance());
 
         $plats = $this->platDao->getAllPlats(); 
-        (new dashboardPlat($plats, $this->platDao))->show(); 
+        (new PlatPage($plats, $this->platDao))->show(); 
     }
 }
