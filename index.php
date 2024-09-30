@@ -6,7 +6,7 @@ require_once __DIR__ . '/modules/blog/controllers/PlatController.php';
 require_once __DIR__ . '/modules/blog/controllers/RepasController.php';
 require_once __DIR__ . '/modules/blog/controllers/DashboardController.php';
 require_once __DIR__ . '/modules/blog/controllers/TenracController.php';
-
+require_once __DIR__ . '/modules/blog/controllers/ErrorPageController.php';
 function loadPage($page, PDO $pdo) {
     switch ($page) {
         case 'homepage':
@@ -35,7 +35,8 @@ function loadPage($page, PDO $pdo) {
             (new TenracController())->execute();
             break;
         default:
-            echo '404';
+            require_once __DIR__ . '/modules/blog/views/404.php';
+            (new ErrorPageController())->execute();
             break;
     }
 }
