@@ -145,12 +145,12 @@ class RepasPage {
     private function editRepas($adresse, $date_repas, $id_repas, $horaire): void {
         $planningRepasDao = new PlanningRepasDAO(Database::getInstance());
 
-        if ($planningRepasDao->updatePlanningRepas($id_repas, $adresse, $date_repas, $horaire)) {
+        if ($planningRepasDao->updatePlanningRepas($id_repas, $nom)) {
             echo '<p class="success-message">Le repas a été modifié avec succès !</p>';
             $this->repas = $planningRepasDao->getAllPlanningRepas();
         } else {
             echo '<p class="error-message">Erreur lors de la modification du repas.</p>';
         }
     }
-}
+}   
 ?>

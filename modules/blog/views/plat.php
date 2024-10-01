@@ -11,15 +11,19 @@ class PlatPage {
 
     public function show(): void {
         // Gestion des requêtes POST
+        $platsTrouves = []; // Initialise la variable ici pour la rendre accessible partout dans la méthode
+        $searchTerm = ''; // Initialise le terme de recherche
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
+            // Traitement de la recherche
             if (isset($_POST['search'])) {
                 $searchTerm = $_POST['search'];
                 // Appel de la fonction de recherche avec le terme saisi
                 $platsTrouves = $this->getPlatsParIngredients([$searchTerm]);
                 // Affichage des résultats
             }
-
+    
             // Traitement du formulaire d'ajout de plat
             if (isset($_POST['action']) && $_POST['action'] === 'add') {
                 $nom_plat = trim($_POST['nom_plat'] ?? '');
@@ -31,37 +35,36 @@ class PlatPage {
                     $this->addPlat($nom_plat, $lien_imageP);
                 }
             }
-
+    
             // Traitement du formulaire de suppression
             if (isset($_POST['action']) && $_POST['action'] === 'delete') {
                 $id_plat = trim($_POST['id_plat'] ?? null);
-
+    
                 if ($id_plat) {
                     $this->deletePlat($id_plat);
                 } else {
                     echo '<p class="error-message">Veuillez sélectionner un plat à supprimer.</p>';
                 }
             }
-
+    
             // Traitement du formulaire de modification
             if (isset($_POST['action']) && $_POST['action'] === 'edit') {
                 $id_plat = trim($_POST['id_plat'] ?? null);
                 $nom_plat = trim($_POST['nom_plat'] ?? '');
                 $lien_imageP = trim($_POST['lien_imageP'] ?? null);
-
+    
                 if ($id_plat && !empty($nom_plat)) {
                     $this->editPlat($id_plat, $nom_plat, $lien_imageP);
                 } else {
                     echo '<p class="error-message">Veuillez remplir tous les champs.</p>';
                 }
             }
-
         }
-
+    
         // Affichage du formulaire et de la liste des plats
         include 'header.php';
         ?>
-        
+    
         <head>
             <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
             <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
@@ -77,26 +80,28 @@ class PlatPage {
                 <?php foreach ($this->plats as $plat): ?>
                     <div class="club">
                         <h2><?= htmlspecialchars($plat->getNom()) ?></h2>
-
+    
                         <?php if (isset($_SESSION['email'])): ?>
-                            <button class="edit-btn" onclick="openEditForm(<?= htmlspecialchars($plat->getIdPlat()) ?>, '<?= htmlspecialchars($plat->getNom()) ?>')"><ion-icon name="create-outline">Modifier</ion-icon></button>
+                            <button class="edit-btn" onclick="openEditForm(<?= htmlspecialchars($plat->getIdPlat()) ?>, '<?= htmlspecialchars($plat->getNom()) ?>')">
+                                <ion-icon name="create-outline">Modifier</ion-icon>
+                            </button>
                             <button class="delete-btn" onclick="openDeleteForm(<?= htmlspecialchars($plat->getIdPlat()) ?>)">
                                 <ion-icon name="trash-outline">Supprimer</ion-icon>
                             </button>
-
                         <?php endif; ?>
                         <button onclick="openIngredient(<?= htmlspecialchars($plat->getIdPlat()) ?>)">i</button>
                     </div>
                 <?php endforeach; ?>
             </div>
             <?php if (isset($_SESSION['email'])): ?>
-            <button class="add-btn" onclick="openAddForm()">
-                <span>Ajouter un plat</span>
-            </button>
-            <div>
+                <button class="add-btn" onclick="openAddForm()">
+                    <span>Ajouter un plat</span>
+                </button>
+                <div>
                     <form action="" method="post">
                         <input type="search" name="search" placeholder="Rechercher un plat">
                         <button type="submit">Rechercher</button>
+                        
                     </form>
                     <div id="plat-rechercher">
                         <?php
@@ -113,19 +118,17 @@ class PlatPage {
                         ?>
                     </div>
                 </div>
-        <?php endif; ?>
+            <?php endif; ?>
         </main>
-        
-        <?php include_once "footer.php" ?>
+    
+        <?php include_once "footer.php"; ?>
         <form method="POST" action="" style="display:none;" class="edit-form" id="editForm">
             <input type="hidden" name="action" value="edit">
             <input type="hidden" id="id_plat" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
             <input type="text" id="nom_plat" name="nom_plat" value="<?= htmlspecialchars($plat->getNom()) ?>" required>
-            <input type="text" name="lien_imageP" value="<?= htmlspecialchars($plat->getLienImageP()) ?>">
             <button type="submit">Modifier</button>
-            
         </form>
-
+    
         <div id="deleteForm" class="delete-form" style="display:none;">
             <form method="POST" action="">
                 <input type="hidden" name="action" value="delete">
@@ -134,7 +137,7 @@ class PlatPage {
                 <button type="submit">Supprimer</button>
             </form>
         </div>
-        
+    
         <div id="addForm" class="add-form">
             <form method="POST" action="">
                 <input type="hidden" name="action" value="add">
@@ -155,7 +158,7 @@ class PlatPage {
                 document.getElementById('deleteClubId').value = id;
                 document.getElementById('deleteForm').style.display = 'block';
             }
-
+    
             function openAddForm() {
                 if (document.getElementById('addForm').style.display === 'block') {
                     document.getElementById('addForm').style.display = 'none';
