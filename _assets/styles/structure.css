@@ -249,3 +249,6 @@
     position: relative;
     z-index: 1;
 }
+.edit-form, .delete-form, .add-form {
+    z-index: 10;
+}
