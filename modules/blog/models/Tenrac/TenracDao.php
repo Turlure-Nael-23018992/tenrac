@@ -10,7 +10,33 @@ class TenracDao
     {
         $this->pdo = $pdo;
     }
+    public function getLastTenracs(int $limit): array
+    {
+        $query = "SELECT * FROM Tenrac ORDER BY id_tenrac DESC LIMIT :limit";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        $tenracs = [];
+        foreach ($results as $result) {
+            $tenracs[] = new Tenrac(
+                $result['id_tenrac'],
+                $result['nom'],
+                $result['couriel'],
+                $result['tel'],
+                $result['adresse'],
+                $result['grade'],
+                $result['id_club'],
+                $result['id_ordre'],
+                $result['rang'] ?? null,
+                $result['titre'] ?? null,
+                $result['dignite'] ?? null
+            );
+        }
+
+        return $tenracs;
+    }
     // Récupérer un tenrac par ID
     public function getTenracById(int $id_tenrac): ?Tenrac
     {

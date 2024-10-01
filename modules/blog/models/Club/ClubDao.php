@@ -51,7 +51,13 @@ class ClubDao
 
     public function getLastClubs(int $limit): array
     {
-        $stmt = $this->db->prepare("SELECT id_club, nom, id_ordre FROM club WHERE id_ordre = 1 ORDER BY id_club DESC LIMIT :limit");
+        $stmt = $this->db->prepare(<<<SQL
+            SELECT id_club, nom, id_ordre 
+            FROM club 
+            WHERE id_ordre = 1 
+            ORDER BY id_club DESC 
+            LIMIT :limit
+        SQL);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
 

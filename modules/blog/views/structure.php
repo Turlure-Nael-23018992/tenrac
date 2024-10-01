@@ -49,7 +49,9 @@ class Structure {
             <?php endforeach; ?>
         </div>
         <?php if (isset($_SESSION['email'])): ?>
-            <button class="add-btn" onclick="openAddForm()">Ajouter un club</button>
+            <button class="add-btn" onclick="openAddForm()">
+                <span>Ajouter un club</span>
+            </button>
         <?php endif; ?>
 
         <div id="addForm" class="add-form">
@@ -111,7 +113,9 @@ class Structure {
         $clubDao = new ClubDao(Database::getInstance());
 
         if ($clubDao->addClub($nom_club, $id_ordre)) {
-            echo '<p class="success-message">Le club a été ajouté avec succès !</p>';
+            echo <<<HTML
+            <p class="success-message">Le club a été ajouté avec succès !</p>
+            HTML;
             $this->clubs = $clubDao->getLastClubs(10);
         } else {
             echo '<p class="error-message">Erreur lors de l\'ajout du club.</p>';
