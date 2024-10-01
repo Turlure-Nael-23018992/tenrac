@@ -1,16 +1,34 @@
 <?php
 require_once 'modules/blog/models/Ingredient/Ingredient.php';
 
+/**
+ * Classe IngredientDAO
+ *
+ * Fournit des méthodes pour interagir avec la base de données concernant les ingrédients.
+ */
 class IngredientDAO
 {
+    /**
+     * @var PDO $pdo Instance de PDO pour la connexion à la base de données.
+     */
     private PDO $pdo;
 
+    /**
+     * Constructeur de la classe IngredientDAO.
+     *
+     * @param PDO $pdo Instance de PDO.
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // Récupérer un ingrédient par ID
+    /**
+     * Récupérer un ingrédient par son ID.
+     *
+     * @param int $id_ingredient L'ID de l'ingrédient à récupérer.
+     * @return Ingredient|null Retourne l'objet Ingredient si trouvé, sinon null.
+     */
     public function getIngredientById(int $id_ingredient): ?Ingredient
     {
         $query = "SELECT id_ingredient, nom, type FROM Ingredient WHERE id_ingredient = :id_ingredient";
@@ -26,7 +44,13 @@ class IngredientDAO
         return null;
     }
 
-    // Ajouter un nouvel ingrédient et récupérer son ID
+    /**
+     * Ajouter un nouvel ingrédient et récupérer son ID.
+     *
+     * @param string $nom Le nom de l'ingrédient.
+     * @param string $type Le type de l'ingrédient.
+     * @return int|null Retourne l'ID de l'ingrédient ajouté, ou null en cas d'échec.
+     */
     public function addIngredient(string $nom, string $type): ?int
     {
         $query = "INSERT INTO Ingredient (nom, type) VALUES (:nom, :type)";
@@ -42,7 +66,11 @@ class IngredientDAO
         return null; // Retourne null en cas d'échec
     }
 
-    // Récupérer tous les ingrédients
+    /**
+     * Récupérer tous les ingrédients.
+     *
+     * @return Ingredient[] Retourne un tableau d'objets Ingredient.
+     */
     public function getAllIngredients(): array
     {
         $query = "SELECT id_ingredient, nom, type FROM Ingredient";
@@ -57,3 +85,4 @@ class IngredientDAO
         return $ingredients;
     }
 }
+?>

@@ -1,16 +1,32 @@
 <?php
 require_once 'modules/blog/models/PlatsRepas/PlatsRepas.php';
 
+/**
+ * Classe PlatsRepasDAO
+ *
+ * Data Access Object pour gérer les associations entre plats et repas.
+ */
 class PlatsRepasDAO
 {
-    private PDO $pdo;
+    private PDO $pdo; // Instance PDO pour la connexion à la base de données
 
+    /**
+     * Constructeur de la classe PlatsRepasDAO.
+     *
+     * @param PDO $pdo Instance PDO pour la connexion à la base de données.
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // Ajouter un nouveau plat à un repas
+    /**
+     * Ajoute un nouveau plat à un repas.
+     *
+     * @param int $id_plat L'ID du plat à ajouter.
+     * @param int $id_repas L'ID du repas auquel ajouter le plat.
+     * @return bool True si l'ajout a réussi, false sinon.
+     */
     public function addPlatRepas(int $id_plat, int $id_repas): bool
     {
         try {
@@ -41,8 +57,12 @@ class PlatsRepasDAO
         }
     }
 
-
-    // Récupérer tous les plats associés à un repas
+    /**
+     * Récupère tous les plats associés à un repas.
+     *
+     * @param int $id_repas L'ID du repas.
+     * @return array Liste des objets PlatsRepas associés au repas.
+     */
     public function getPlatsByRepasId(int $id_repas): array
     {
         $query = "SELECT id_plat, id_repas FROM Plats_repas WHERE id_repas = :id_repas";
@@ -59,7 +79,12 @@ class PlatsRepasDAO
         return $platsList;
     }
 
-    // Récupérer tous les repas contenant un certain plat
+    /**
+     * Récupère tous les repas contenant un certain plat.
+     *
+     * @param int $id_plat L'ID du plat.
+     * @return array Liste des objets PlatsRepas associés au plat.
+     */
     public function getRepasByPlatId(int $id_plat): array
     {
         $query = "SELECT id_plat, id_repas FROM Plats_repas WHERE id_plat = :id_plat";
@@ -76,3 +101,4 @@ class PlatsRepasDAO
         return $repasList;
     }
 }
+?>

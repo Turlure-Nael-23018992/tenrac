@@ -1,15 +1,31 @@
 <?php
-
 require_once 'modules/blog/models/Tenrac/Tenrac.php';
 
+/**
+ * Classe TenracDao
+ *
+ * Gère les opérations de base de données pour les tenracs.
+ */
 class TenracDao
 {
-    private PDO $pdo;
+    private PDO $pdo; // Instance de PDO pour interagir avec la base de données
 
+    /**
+     * Constructeur de la classe TenracDao.
+     *
+     * @param PDO $pdo Instance de PDO pour accéder à la base de données.
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
+
+    /**
+     * Récupérer les derniers tenracs.
+     *
+     * @param int $limit Le nombre de tenracs à récupérer.
+     * @return array Liste des derniers tenracs.
+     */
     public function getLastTenracs(int $limit): array
     {
         $query = "SELECT * FROM Tenrac ORDER BY id_tenrac DESC LIMIT :limit";
@@ -35,9 +51,15 @@ class TenracDao
             );
         }
 
-        return $tenracs;
+        return $tenracs; // Retourne un tableau d'objets Tenrac
     }
-    // Récupérer un tenrac par ID
+
+    /**
+     * Récupérer un tenrac par ID.
+     *
+     * @param int $id_tenrac L'ID du tenrac à récupérer.
+     * @return Tenrac|null L'objet Tenrac si trouvé, sinon null.
+     */
     public function getTenracById(int $id_tenrac): ?Tenrac
     {
         $query = "SELECT * FROM Tenrac WHERE id_tenrac = :id_tenrac";
@@ -62,10 +84,15 @@ class TenracDao
             );
         }
 
-        return null;
+        return null; // Retourne null si le tenrac n'est pas trouvé
     }
 
-    // Récupérer un tenrac par nom
+    /**
+     * Récupérer un tenrac par nom.
+     *
+     * @param string $nom Le nom du tenrac à récupérer.
+     * @return Tenrac|null L'objet Tenrac si trouvé, sinon null.
+     */
     public function getTenracByNom(string $nom): ?Tenrac
     {
         $query = "SELECT * FROM Tenrac WHERE nom = :nom";
@@ -90,10 +117,14 @@ class TenracDao
             );
         }
 
-        return null;
+        return null; // Retourne null si le tenrac n'est pas trouvé
     }
 
-    // Récupérer tous les tenracs
+    /**
+     * Récupérer tous les tenracs.
+     *
+     * @return array Liste de tous les tenracs.
+     */
     public function getAllTenracs(): array
     {
         $query = "SELECT * FROM Tenrac";
@@ -118,10 +149,24 @@ class TenracDao
             );
         }
 
-        return $tenracs;
+        return $tenracs; // Retourne un tableau d'objets Tenrac
     }
 
-    // Ajouter un tenrac
+    /**
+     * Ajouter un tenrac.
+     *
+     * @param string $nom Le nom du tenrac.
+     * @param string $couriel L'email du tenrac.
+     * @param string $tel Le téléphone du tenrac.
+     * @param string $adresse L'adresse du tenrac.
+     * @param string $grade Le grade du tenrac.
+     * @param int $id_club L'ID du club associé au tenrac.
+     * @param int $id_ordre L'ID de l'ordre associé au tenrac.
+     * @param string|null $rang Le rang du tenrac (facultatif).
+     * @param string|null $titre Le titre du tenrac (facultatif).
+     * @param string|null $dignite La dignité du tenrac (facultatif).
+     * @return bool True si l'ajout a réussi, sinon false.
+     */
     public function addTenrac(
         string $nom,
         string $couriel,
@@ -149,14 +194,28 @@ class TenracDao
             $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
             $stmt->bindParam(':dignite', $dignite, PDO::PARAM_STR);
 
-            return $stmt->execute();
+            return $stmt->execute(); // Exécute la requête d'insertion
         } catch (PDOException $e) {
             echo 'Erreur lors de l\'insertion : ' . $e->getMessage();
-            return false;
+            return false; // Retourne false en cas d'erreur
         }
     }
 
-    // Éditer un tenrac
+    /**
+     * Éditer un tenrac.
+     *
+     * @param int $id_tenrac L'ID du tenrac à éditer.
+     * @param string $nom Le nouveau nom du tenrac.
+     * @param string $couriel Le nouvel email du tenrac.
+     * @param string $tel Le nouveau téléphone du tenrac.
+     * @param string $adresse La nouvelle adresse du tenrac.
+     * @param string $grade Le nouveau grade du tenrac.
+     * @param int $id_club Le nouvel ID du club associé au tenrac.
+     * @param string|null $rang Le nouveau rang du tenrac (facultatif).
+     * @param string|null $titre Le nouveau titre du tenrac (facultatif).
+     * @param string|null $dignite La nouvelle dignité du tenrac (facultatif).
+     * @return bool True si la mise à jour a réussi, sinon false.
+     */
     public function editTenrac(
         int $id_tenrac,
         string $nom,
@@ -186,17 +245,22 @@ class TenracDao
         $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
         $stmt->bindParam(':dignite', $dignite, PDO::PARAM_STR);
 
-        return $stmt->execute();
+        return $stmt->execute(); // Exécute la requête de mise à jour
     }
 
-    // Supprimer un tenrac par ID
+    /**
+     * Supprimer un tenrac par ID.
+     *
+     * @param int $id_tenrac L'ID du tenrac à supprimer.
+     * @return bool True si la suppression a réussi, sinon false.
+     */
     public function deleteTenracById(int $id_tenrac): bool
     {
         $query = "DELETE FROM Tenrac WHERE id_tenrac = :id_tenrac";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':id_tenrac', $id_tenrac, PDO::PARAM_INT);
 
-        return $stmt->execute();
+        return $stmt->execute(); // Exécute la requête de suppression
     }
 }
 ?>

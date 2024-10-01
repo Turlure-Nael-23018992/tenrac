@@ -129,7 +129,7 @@ class PlatPage {
     }
 
     // Méthode de recherche de plats par ingrédients
-    public function getPlatsParIngredients(array $ingredients = []): array {
+    public function getPlatsParIngredient(array $ingredients = []): array {
         if ($this->platDao->getPlatsParIngredients($ingredients)) {
             return $this->platDao->getPlatsParIngredients($ingredients);
         } else {

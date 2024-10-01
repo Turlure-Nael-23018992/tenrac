@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (password_verify($password, $user['motdepasse'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['couriel'];
-                //setcookie('co',true,time()+3600000000000000000000);
                 header('Location: /?page=dashboard');
             } else {
                 die('Le mot de passe est incorrect.');

@@ -2,16 +2,34 @@
 
 require_once 'modules/blog/models/Plat/Plat.php';
 
+/**
+ * Classe PlatDao
+ *
+ * Gère les opérations de la base de données concernant les plats.
+ */
 class PlatDao
 {
+    /**
+     * @var PDO $pdo Instance de PDO pour la connexion à la base de données.
+     */
     private PDO $pdo;
 
+    /**
+     * Constructeur de la classe PlatDao.
+     *
+     * @param PDO $pdo Instance de PDO pour la connexion à la base de données.
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // Récupérer un plat par ID
+    /**
+     * Récupérer un plat par ID.
+     *
+     * @param int $id_plat L'ID du plat à récupérer.
+     * @return Plat|null Un objet Plat si trouvé, sinon null.
+     */
     public function getPlatById(int $id_plat): ?Plat
     {
         $query = "SELECT id_plat, nom, lien_imageP FROM Plat WHERE id_plat = :id_plat";
@@ -27,7 +45,12 @@ class PlatDao
         return null;
     }
 
-    // Récupérer un plat par nom
+    /**
+     * Récupérer un plat par nom.
+     *
+     * @param string $nom Le nom du plat à récupérer.
+     * @return Plat|null Un objet Plat si trouvé, sinon null.
+     */
     public function getPlatByNom(string $nom): ?Plat
     {
         $query = "SELECT id_plat, nom, lien_imageP FROM Plat WHERE nom = :nom";
@@ -43,6 +66,12 @@ class PlatDao
         return null;
     }
 
+    /**
+     * Récupérer les derniers plats.
+     *
+     * @param int $limit Le nombre de plats à récupérer.
+     * @return Plat[] Un tableau d'objets Plat.
+     */
     public function getLastPlats(int $limit): array
     {
         $query = "SELECT id_plat, nom, lien_imageP FROM Plat ORDER BY id_plat DESC LIMIT :limit";
@@ -59,6 +88,13 @@ class PlatDao
         return $plats;
     }
 
+    /**
+     * Ajouter un plat.
+     *
+     * @param string $nom Le nom du plat.
+     * @param string|null $lien_imageP Le lien de l'image du plat (peut être null).
+     * @return bool Retourne true en cas de succès, sinon false.
+     */
     public function addPlat(string $nom, ?string $lien_imageP): bool
     {
         try {
@@ -74,6 +110,12 @@ class PlatDao
         }
     }
 
+    /**
+     * Supprime un plat par ID.
+     *
+     * @param int $id_plat L'ID du plat à supprimer.
+     * @return bool Retourne true en cas de succès, sinon false.
+     */
     public function deletePlatById(int $id_plat): bool
     {
         $query = "DELETE FROM Plat WHERE id_plat = :id_plat";
@@ -83,6 +125,14 @@ class PlatDao
         return $stmt->execute();
     }
 
+    /**
+     * Édite un plat.
+     *
+     * @param int $id_plat L'ID du plat à éditer.
+     * @param string $nom_plat Le nouveau nom du plat.
+     * @param string|null $lien_imageP Le nouveau lien de l'image du plat (peut être null).
+     * @return bool Retourne true en cas de succès, sinon false.
+     */
     public function editPlat(int $id_plat, string $nom_plat, ?string $lien_imageP): bool
     {
         // Préparez la requête SQL pour mettre à jour le plat
@@ -98,6 +148,11 @@ class PlatDao
         return $stmt->execute();
     }
 
+    /**
+     * Récupère tous les plats.
+     *
+     * @return Plat[] Un tableau d'objets Plat.
+     */
     public function getAllPlats(): array
     {
         $query = "SELECT id_plat, nom, lien_imageP FROM Plat";
@@ -112,35 +167,45 @@ class PlatDao
 
         return $plats;
     }
+
+    /**
+     * Récupère l'instance de PDO.
+     *
+     * @return PDO L'instance de PDO.
+     */
     public function getPdo() {
         return $this->pdo;
     }
+
+    /**
+     * Récupère les plats par ingrédients.
+     *
+     * @param array $ingredients Un tableau des noms d'ingrédients.
+     * @return Plat[] Un tableau d'objets Plat correspondant aux ingrédients spécifiés.
+     */
     public function getPlatsParIngredients(array $ingredients = []): array {
-    
         $query = "SELECT DISTINCT p.id_plat, p.nom, p.lien_imageP 
                   FROM Plat p 
                   JOIN Plat_Ingredient pi ON p.id_plat = pi.id_plat
                   JOIN Ingredient i ON pi.id_ingredient = i.id_ingredient";
-    
+
         if (!empty($ingredients)) {
             $placeholders = array_fill(0, count($ingredients), '?');
             $query .= " WHERE i.nom IN (" . implode(',', $placeholders) . ")";
         }
-    
+
         // Préparer la requête avec l'objet PDO
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($ingredients);
-    
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
         $plats = [];
         foreach ($results as $result) {
             $plats[] = new Plat($result['id_plat'], $result['nom'], $result['lien_imageP']);
         }
-    
+
         return $plats;
     }
-    
-
 }
 ?>

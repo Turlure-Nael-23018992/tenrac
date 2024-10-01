@@ -1,16 +1,34 @@
 <?php
 require_once 'modules/blog/models/Lieux/Lieux.php';
 
+/**
+ * Classe LieuxDAO
+ *
+ * Gère les opérations de la base de données concernant les lieux.
+ */
 class LieuxDAO
 {
+    /**
+     * @var PDO $pdo L'instance PDO pour la connexion à la base de données.
+     */
     private PDO $pdo;
 
+    /**
+     * Constructeur de la classe LieuxDAO.
+     *
+     * @param PDO $pdo L'instance PDO pour la connexion à la base de données.
+     */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // Ajouter un nouveau lieu et récupérer l'adresse
+    /**
+     * Ajouter un nouveau lieu et récupérer l'adresse.
+     *
+     * @param string $adresse L'adresse du lieu à ajouter.
+     * @return bool Retourne vrai si l'ajout a réussi, sinon faux.
+     */
     public function addLieux(string $adresse): bool
     {
         $query = "INSERT INTO Lieux (adresse) VALUES (:adresse)";
@@ -20,7 +38,12 @@ class LieuxDAO
         return $stmt->execute();
     }
 
-    // Récupérer un lieu par adresse
+    /**
+     * Récupérer un lieu par adresse.
+     *
+     * @param string $adresse L'adresse du lieu à récupérer.
+     * @return Lieux|null Retourne un objet Lieux si trouvé, sinon null.
+     */
     public function getLieuxByAdresse(string $adresse): ?Lieux
     {
         $query = "SELECT adresse FROM Lieux WHERE adresse = :adresse";
@@ -36,7 +59,11 @@ class LieuxDAO
         return null;
     }
 
-    // Récupérer tous les lieux
+    /**
+     * Récupérer tous les lieux.
+     *
+     * @return Lieux[] Un tableau d'objets Lieux.
+     */
     public function getAllLieux(): array
     {
         $query = "SELECT adresse FROM Lieux";
@@ -51,3 +78,4 @@ class LieuxDAO
         return $lieuxList;
     }
 }
+?>

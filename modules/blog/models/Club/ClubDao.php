@@ -2,15 +2,33 @@
 
 require_once 'modules/blog/models/Club/Club.php';
 
+/**
+ * Classe ClubDao
+ *
+ * Cette classe gère les opérations CRUD (Create, Read, Update, Delete) pour les clubs dans la base de données.
+ */
 class ClubDao
 {
+    /**
+     * @var PDO $db Instance de PDO pour interagir avec la base de données.
+     */
     private PDO $db;
 
+    /**
+     * Constructeur de la classe ClubDao.
+     *
+     * @param PDO $db Instance de PDO pour la connexion à la base de données.
+     */
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
 
+    /**
+     * Récupérer tous les clubs avec un id_ordre égal à 1.
+     *
+     * @return Club[] Retourne un tableau d'instances de la classe Club.
+     */
     public function getAllClubs(): array
     {
         $stmt = $this->db->prepare("SELECT id_club, nom, id_ordre FROM club WHERE id_ordre = 1");
@@ -24,6 +42,12 @@ class ClubDao
         return $clubs;
     }
 
+    /**
+     * Ajouter un nouveau club avec id_ordre par défaut à 1.
+     *
+     * @param string $nom Le nom du club à ajouter.
+     * @return bool Retourne true si l'ajout a réussi, sinon false.
+     */
     public function addClub(string $nom): bool
     {
         $stmt = $this->db->prepare("INSERT INTO club (nom, id_ordre) VALUES (:nom, 1)");
@@ -32,6 +56,12 @@ class ClubDao
         return $stmt->execute();
     }
 
+    /**
+     * Supprimer un club en fonction de son ID.
+     *
+     * @param int $id_club L'ID du club à supprimer.
+     * @return bool Retourne true si la suppression a réussi, sinon false.
+     */
     public function deleteClubById(int $id_club): bool
     {
         $stmt = $this->db->prepare("DELETE FROM club WHERE id_club = :id_club");
@@ -40,6 +70,13 @@ class ClubDao
         return $stmt->execute();
     }
 
+    /**
+     * Modifier le nom d'un club en fonction de son ID.
+     *
+     * @param int $id_club L'ID du club à modifier.
+     * @param string $nom Le nouveau nom du club.
+     * @return bool Retourne true si la mise à jour a réussi, sinon false.
+     */
     public function editClub(int $id_club, string $nom): bool
     {
         $stmt = $this->db->prepare("UPDATE club SET nom = :nom WHERE id_club = :id_club AND id_ordre = 1");
@@ -49,6 +86,12 @@ class ClubDao
         return $stmt->execute();
     }
 
+    /**
+     * Récupérer les derniers clubs ajoutés, limités par un nombre spécifié.
+     *
+     * @param int $limit Le nombre maximum de clubs à récupérer.
+     * @return Club[] Retourne un tableau d'instances de la classe Club.
+     */
     public function getLastClubs(int $limit): array
     {
         $stmt = $this->db->prepare(<<<SQL
