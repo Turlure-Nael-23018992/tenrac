@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modules/blog/models/Plat/Plat.php';
+require_once 'modules/blog/models/Ingredient/Ingredient.php';
 
 /**
  * Classe PlatDao
@@ -44,6 +45,31 @@ class PlatDao
 
         return null;
     }
+    /**
+     * Récupérer les ingrédients d'un plat par l'ID .
+     *
+     * @param int $id_plat L'ID du plat à récupérer.
+     * @return array Des ingrédients si trouvé.
+     */
+    public function getIngredientByIdPlat($id_plat) : array
+{
+    $query = "SELECT i.id_ingredient, i.nom, i.type 
+              FROM Ingredient i 
+              JOIN Plat_Ingredient pi ON i.id_ingredient = pi.id_ingredient 
+              WHERE pi.id_plat = :id_plat";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->bindParam(':id_plat', $id_plat, PDO::PARAM_INT);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $ingredients = [];
+    foreach ($results as $result) {
+        // Créer un objet Ingredient pour chaque résultat de la base de données
+        $ingredients[] = new Ingredient($result['id_ingredient'], $result['nom'], $result['type']);
+    }
+
+    return $ingredients;
+}
 
     /**
      * Récupérer un plat par nom.
