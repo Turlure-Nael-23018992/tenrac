@@ -4,7 +4,7 @@ class Database {
     private $pdo;
     
     private $servername = "mysql-tenrac-projet.alwaysdata.net"; 
-    private $username = "374958_valentin"; 
+    private $username = "374958_admin2"; 
     private $password = "tenracprojetmdp";
     private $dbname = "tenrac-projet_valentin";
 

@@ -1,4 +1,5 @@
 <?php
+
 class Homepage{
     private $plats;
     public function __construct($p){

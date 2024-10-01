@@ -20,11 +20,13 @@
 .ordre img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
     position: absolute;
     top: 0;
     left: 0;
     border-radius: 10px;
     z-index: -1;
+    opacity: 0.5; 
 }
 
 .ordre h1 {
@@ -32,6 +34,7 @@
     font-weight: 600;
     text-align: center;
     color: #fff; 
+    z-index: 1; 
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 
@@ -93,16 +96,11 @@
     opacity: 0.4; 
     transition: opacity 0.3s ease;
 }
-
-.edit-btn {
+.edit-btn, .delete-btn {
     display: block;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px 15px;
+    margin: 5px;
     background-color: none;
+    position: absolute;
     color: white;
     border: none;
     border-radius: 5px;
@@ -112,12 +110,27 @@
     opacity: 0; 
 }
 
-.club:hover .edit-btn {
+.edit-btn {
+    top: 0;
+    left: 0;
+}
+
+.delete-btn {
+    top: 0;
+    right: 0;
+}
+
+.club:hover .edit-btn, 
+.club:hover .delete-btn {
     opacity: 1;
 }
 
+.delete-btn {
+    background-color: #d9534f;
+}
 
-.edit-form {
+.delete-form, .edit-form {
+    z-index: 999;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -128,19 +141,26 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.edit-form form {
+.delete-form p {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.edit-form form,
+.delete-form form {
     display: flex;
     flex-direction: column;
 }
 
-.edit-form input[type="text"] {
+.edit-form input[type="text"],
+.delete-form button {
     margin-bottom: 15px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-.edit-form button {
+.edit-form button, .delete-form button {
     background-color: rgb(194, 49, 21);
     color: white;
     border: none;
@@ -149,6 +169,78 @@
     cursor: pointer;
 }
 
-.edit-form button:hover {
+.edit-form button:hover, .delete-form button:hover {
+    background-color: #c9302c;
+}
+
+.add-form {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-form input[type="text"],
+.add-form button {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.add-form button {
     background-color: rgb(194, 49, 21);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-form button:hover {
+    background-color: #c9302c;
+}
+
+.add-btn {
+    position: relative; 
+    border: 2px solid rgb(194, 49, 21);
+    padding: 10px 25px;
+    margin: 20px 0;
+    border-radius: 5px;
+    color: #C23115;
+    font-size: 1.2rem;
+    background-color: transparent; 
+    overflow: hidden; 
+    transition: color 0.4s ease;
+}
+
+.add-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%; 
+    background-color: rgb(194, 49, 21); 
+    transform: translateY(100%); 
+    transition: transform 0.4s ease; 
+    z-index: 0; 
+}
+
+.add-btn:hover {
+    color: white; 
+}
+
+.add-btn:hover::after {
+    transform: translateY(0); 
 }
