@@ -54,6 +54,7 @@ class TenracPage {
         ?>
         <head>
             <link rel="stylesheet" href="_assets/styles/tenrac.css">
+            <link rel="stylesheet" href="_assets/styles/footer.css">
         </head>
         <main>
             <div class="tenracs-container">
@@ -154,6 +155,7 @@ class TenracPage {
             <?php } ?>
             <?php } ?>
         </main>
+        <?php include_once 'footer.php' ?>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var modal = document.getElementById('editModal');
