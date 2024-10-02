@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <head>
     <title>Tenrac</title>
+    <meta name="description" content="Site des Tenracs">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
 </head>
