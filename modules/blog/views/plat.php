@@ -135,6 +135,30 @@ class PlatPage {
         </main>
 
         <?php include_once "footer.php"; ?>
+        <form method="POST" action="" style="display:none;" class="edit-form" id="editForm">
+            <input type="hidden" name="action" value="edit">
+            <input type="hidden" id="id_plat" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
+            <input type="text" id="nom_plat" name="nom_plat" value="<?= htmlspecialchars($plat->getNom()) ?>" required>
+            <button type="submit">Modifier</button>
+        </form>
+        <div id="deleteForm" class="delete-form" style="display:none;">
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" id="deleteClubId" name="id_plat">
+                <p>Êtes-vous sûr de vouloir supprimer ce club ?</p>
+                <button type="submit">Supprimer</button>
+            </form>
+        </div>
+
+        <div id="addForm" class="add-form">
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="add">
+                <label for="addPlat">Nom du club :</label>
+                <input type="text" id="addPlat" name="nom_plat" required>
+                <input type="hidden" name="id_ordre" value="1">
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
         <script>
             function openEditForm(id, name) {
                 document.getElementById('id_plat').value = id;
