@@ -5,6 +5,10 @@
 <html lang="fr">
 <head>
     <title>Tenrac</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Tenrac">
+    <meta name="viewport" 
+        content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
