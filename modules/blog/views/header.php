@@ -2,6 +2,7 @@
     session_start();
 ?>
 <!DOCTYPE html>
+<html lang="fr">
 <head>
     <title>Tenrac</title>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
