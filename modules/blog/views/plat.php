@@ -145,7 +145,7 @@ class PlatPage {
             <form method="POST" action="">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" id="deleteClubId" name="id_plat">
-                <p>Êtes-vous sûr de vouloir supprimer ce club ?</p>
+                <p>Êtes-vous sûr de vouloir supprimer ce plat ?</p>
                 <button type="submit">Supprimer</button>
             </form>
         </div>
@@ -153,7 +153,7 @@ class PlatPage {
         <div id="addForm" class="add-form">
             <form method="POST" action="">
                 <input type="hidden" name="action" value="add">
-                <label for="addPlat">Nom du club :</label>
+                <label for="addPlat">Nom du plat :</label>
                 <input type="text" id="addPlat" name="nom_plat" required>
                 <input type="hidden" name="id_ordre" value="1">
                 <button type="submit">Ajouter</button>
