@@ -1,26 +1,36 @@
 <?php
-include '_assets/includes/config.php'; // Pour la connexion à la base de données
+session_start();
 
-if (filter_input(INPUT_POST, 'username') && filter_input(INPUT_POST, 'password'))
-{
-    $login = $_POST['username'];  // variable login = username rentré par l'utilisateur dans le form
-    $mdp = $_POST['password']; // variable mdp = mdp rentré par l'utilisateur dans le form
+require_once __DIR__ . '/../../../_assets/includes/database.php';
 
-    $username = 'SELECT couriel FROM tenrac WHERE couriel = $login'; // on récupère le tenrac correspondant au couriel rentré par l'utilisateur
-    $password = 'SELECT motdepasse FROM tenrac WHERE couriel = $login'; // on récupère le mot de passe associé
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = isset($_POST['courriel']) ? trim($_POST['courriel']) : '';
+    $password = isset($_POST['mdp']) ? $_POST['mdp'] : '';
 
-    if ($username === $_POST['username'] && password_verify($_POST['password'], $mdp)) // Si le couriel et mdp correspondent
-    {
-        echo "Connexion réussie, bienvenue";
-        session_start(); // démarrage de la session
-        $_SESSION['username'] = $username['couriel'];
-        header("Location: ../viewshomepage.php"); // redirection vers la homepage
-        exit();
+    if (empty($email) || empty($password)) {
+        die('Veuillez remplir tous les champs.');
     }
-    else // sinon
-    {
-        echo "Nom d'utilisateur ou mot de passe incorrect";
+    $query = "SELECT * FROM Tenrac WHERE couriel = :courriel";
+    
+    try {
+        $stmt = Database::getInstance()->prepare($query);
+        $stmt->bindParam(':courriel', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            if (password_verify($password, $user['motdepasse'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['couriel'];
+                header('Location: /?page=dashboard');
+            } else {
+                die('Le mot de passe est incorrect.');
+            }
+        } else {
+            die('Utilisateur non trouvé.');
+        }
+    } catch (PDOException $e) {
+        die("Erreur de base de données : " . $e->getMessage());
     }
 }
-
 ?>

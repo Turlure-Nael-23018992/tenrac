@@ -1,131 +1,157 @@
 <?php
-class Tenrac {
-    private int $id_tenrac;
-    private string $courriel;
-    private string $tel;
-    private string $grade;
-    private string $rang;
-    private string $titre;
-    private string $dignite;
-    private string $nom;
-    private string $adresse;
-    private string $motdepasse;
-    private int $id_club;
-    private int $id_ordre;
 
-    public function __construct($id_tenrac, $courriel, $tel, $grade, $rang, $titre, $dignite, $nom, $adresse, $motdepasse, $id_club, $id_ordre) {
-        $this->id_tenrac = $id_tenrac;
-        $this->courriel = $courriel;
-        $this->tel = $tel;
-        $this->grade = $grade;
-        $this->rang = $rang;
-        $this->titre = $titre;
-        $this->dignite = $dignite;
-        $this->nom = $nom;
-        $this->adresse = $adresse;
-        $this->motdepasse = $motdepasse;
-        $this->id_club = $id_club;
-        $this->id_ordre = $id_ordre;
+class Tenrac
+{
+    private int $id_tenrac;        // Identifiant unique du tenrac
+    private string $nom;           // Nom du tenrac
+    private string $couriel;       // Courriel du tenrac
+    private string $tel;           // Numéro de téléphone du tenrac
+    private string $adresse;       // Adresse du tenrac
+    private string $grade;         // Grade du tenrac
+    private int $id_club;          // Identifiant du club associé
+    private int $id_ordre;         // Identifiant de l'ordre associé
+    private ?string $rang;         // Rang du tenrac (facultatif)
+    private ?string $titre;        // Titre du tenrac (facultatif)
+    private ?string $dignite;      // Dignité du tenrac (facultatif)
+
+    /**
+     * Constructeur de la classe Tenrac.
+     *
+     * @param int $id_tenrac Identifiant unique du tenrac.
+     * @param string $nom Nom du tenrac.
+     * @param string $couriel Courriel du tenrac.
+     * @param string $tel Numéro de téléphone du tenrac.
+     * @param string $adresse Adresse du tenrac.
+     * @param string $grade Grade du tenrac.
+     * @param int $id_club Identifiant du club associé.
+     * @param int $id_ordre Identifiant de l'ordre associé.
+     * @param string|null $rang Rang du tenrac (facultatif).
+     * @param string|null $titre Titre du tenrac (facultatif).
+     * @param string|null $dignite Dignité du tenrac (facultatif).
+     */
+    public function __construct(
+        int $id_tenrac,
+        string $nom,
+        string $couriel,
+        string $tel,
+        string $adresse,
+        string $grade,
+        int $id_club,
+        int $id_ordre,
+        ?string $rang = null,
+        ?string $titre = null,
+        ?string $dignite = null
+    ) {
+        $this->id_tenrac = $id_tenrac; // Initialise l'ID du tenrac
+        $this->nom = $nom;               // Initialise le nom du tenrac
+        $this->couriel = $couriel;       // Initialise le courriel du tenrac
+        $this->tel = $tel;               // Initialise le numéro de téléphone du tenrac
+        $this->adresse = $adresse;       // Initialise l'adresse du tenrac
+        $this->grade = $grade;           // Initialise le grade du tenrac
+        $this->id_club = $id_club;       // Initialise l'ID du club
+        $this->id_ordre = $id_ordre;     // Initialise l'ID de l'ordre
+        $this->rang = $rang;             // Initialise le rang (facultatif)
+        $this->titre = $titre;           // Initialise le titre (facultatif)
+        $this->dignite = $dignite;       // Initialise la dignité (facultatif)
     }
 
+    /**
+     * Récupère l'ID du tenrac.
+     *
+     * @return int L'ID du tenrac.
+     */
     public function getIdTenrac(): int {
         return $this->id_tenrac;
     }
 
-    public function getCourriel(): string {
-        return $this->courriel;
-    }
-
-    public function getTel(): string {
-        return $this->tel;
-    }
-
-    public function getGrade(): string {
-        return $this->grade;
-    }
-
-    public function getRang(): string {
-        return $this->rang;
-    }
-
-    public function getTitre(): string {
-        return $this->titre;
-    }
-
-    public function getDignite(): string {
-        return $this->dignite;
-    }
-
+    /**
+     * Récupère le nom du tenrac.
+     *
+     * @return string Le nom du tenrac.
+     */
     public function getNom(): string {
         return $this->nom;
     }
 
+    /**
+     * Récupère le courriel du tenrac.
+     *
+     * @return string Le courriel du tenrac.
+     */
+    public function getCouriel(): string {
+        return $this->couriel;
+    }
+
+    /**
+     * Récupère le numéro de téléphone du tenrac.
+     *
+     * @return string Le numéro de téléphone du tenrac.
+     */
+    public function getTel(): string {
+        return $this->tel;
+    }
+
+    /**
+     * Récupère l'adresse du tenrac.
+     *
+     * @return string L'adresse du tenrac.
+     */
     public function getAdresse(): string {
         return $this->adresse;
     }
 
-    public function getMotdepasse(): string {
-        return $this->motdepasse;
+    /**
+     * Récupère le grade du tenrac.
+     *
+     * @return string Le grade du tenrac.
+     */
+    public function getGrade(): string {
+        return $this->grade;
     }
 
+    /**
+     * Récupère l'ID du club associé au tenrac.
+     *
+     * @return int L'ID du club.
+     */
     public function getIdClub(): int {
         return $this->id_club;
     }
 
+    /**
+     * Récupère l'ID de l'ordre associé au tenrac.
+     *
+     * @return int L'ID de l'ordre.
+     */
     public function getIdOrdre(): int {
         return $this->id_ordre;
     }
 
-    public function setIdTenrac(int $id_tenrac): void {
-        $this->id_tenrac = $id_tenrac;
+    /**
+     * Récupère le rang du tenrac.
+     *
+     * @return string|null Le rang du tenrac ou null s'il n'est pas défini.
+     */
+    public function getRang(): ?string {
+        return $this->rang;
     }
 
-    public function setCourriel(string $courriel): void {
-        $this->courriel = $courriel;
+    /**
+     * Récupère le titre du tenrac.
+     *
+     * @return string|null Le titre du tenrac ou null s'il n'est pas défini.
+     */
+    public function getTitre(): ?string {
+        return $this->titre;
     }
 
-    public function setTel(string $tel): void {
-        $this->tel = $tel;
-    }
-
-    public function setGrade(string $grade): void {
-        $this->grade = $grade;
-    }
-
-    public function setRang(string $rang): void {
-        $this->rang = $rang;
-    }
-
-    public function setTitre(string $titre): void {
-        $this->titre = $titre;
-    }
-
-    public function setDignite(string $dignite): void {
-        $this->dignite = $dignite;
-    }
-
-    public function setNom(string $nom): void {
-        $this->nom = $nom;
-    }
-
-    public function setAdresse(string $adresse): void {
-        $this->adresse = $adresse;
-    }
-
-    public function setMotdepasse(string $motdepasse): void {
-        $this->motdepasse = $motdepasse;
-    }
-
-    public function setIdClub(int $id_club): void {
-        $this->id_club = $id_club;
-    }
-
-    public function setIdOrdre(int $id_ordre): void {
-        $this->id_ordre = $id_ordre;
-    }
-
-    public function __toString(): string {
-        return "Tenrac: {ID: $this->id_tenrac, Courriel: $this->courriel, Tel: $this->tel, Grade: $this->grade, Rang: $this->rang, Titre: $this->titre, Dignité: $this->dignite, Nom: $this->nom, Adresse: $this->adresse, Mot de passe: $this->motdepasse, ID Club: $this->id_club, ID Ordre: $this->id_ordre}";
+    /**
+     * Récupère la dignité du tenrac.
+     *
+     * @return string|null La dignité du tenrac ou null s'il n'est pas défini.
+     */
+    public function getDignite(): ?string {
+        return $this->dignite;
     }
 }
 ?>

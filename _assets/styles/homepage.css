@@ -2,79 +2,44 @@
     margin: 0;
     padding: 0;
 }
-.actualites {
-    width: 100%;
+
+.presentation-container {
     display: flex;
-    flex-direction: column;
+    flex-flow: row nowrap;
     align-items: center;
-}
-
-.actualites h1 {
-    margin-bottom: 3vh ;
-    position: relative;
-}
-
-.actualites h1::after {
-    content: "";
-    width: 50%;
-    background: #000;
-    height: 2px;
-    position: absolute;
-    bottom: -1px;
-    left: 50%;
-    transform: translateX(-50%)
-}
-
-.contCalend {
-    width: 90%;
-    display: flex;
-    justify-content: space-around;
-    flex-flow: row wrap;
-}
-.calend {
-    border-radius: 10px;
-    display: flex;
-    color: #fff2f1;
-    width: 20%;
-    margin: 0 10px 10px 10px;
-    background-color: #400f0a;
-    box-shadow: 0 0 15px #000;
-}
-.calend div {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding: 7%;
-    height: 100%;
-}
-.btn-disable {
-    background-color: green;
-    cursor: auto;
-}
-.btn-ins {
-    background-color: #c91e0b;
-    cursor: pointer;
-}
-.calend div button {
-    border: none;
-    
-    padding: 5px;
-    width: 100%;
-    display: flex;
     justify-content: center;
-    
-    border-radius: 5px;
-    color: white;
+    padding: 40px;
 }
 
-.calend span {
-    height: 100%;
-    width: 7%;
+.presentation-container img, .second-presentation-container img {
+    border-radius: 7px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.652);
+}
 
+.second-presentation-container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
 }
-.sins {
-    background-color: #c91e0b;  
+
+.text-container {
+    margin-right: 30px;
 }
-.ins {
-    background-color: green;
+
+.second-text-container {
+    margin-left: 30px;
+}
+
+.t {
+    width: 100%;
+    height: 20px;
+    background: black;
+}
+
+@media only screen and (min-width: 1600px) {
+    .presentation-container {
+        padding: 40px 80px;
+    }
 }

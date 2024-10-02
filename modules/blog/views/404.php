@@ -1,2 +1,19 @@
-<h1>404 - Page non trouvée</h1>
-<p>Oups ! La page que vous recherchez n'existe pas.</p>
+<?php
+    class ErrorPage {
+        public function show(): void {
+            ?>
+            <head>
+                <link rel="stylesheet" type="text/css" href="/_assets/styles/404.css">
+                <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
+            </head>
+            <body>
+                <h1>404</h1>
+                <a href="/?page=homepage" class="logo"></a>
+            </body>
+            <?php
+        }
+    }
+
+
+
+

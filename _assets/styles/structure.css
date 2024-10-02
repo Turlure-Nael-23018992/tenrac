@@ -1,16 +1,288 @@
-* {
-    margin: 0;
-    padding: 0;
+.structure-main {
+    padding: 0 40px;
 }
 
-main {
+.clubs-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ordre {
+    color: #fff;
+    padding: 60px 0;
+    max-height: 250px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ordre img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    z-index: -1;
+    opacity: 1; 
+}
+
+.ordre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0; 
+}
+
+.ordre h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    color: #fff; 
+    z-index: 2; 
+    position: relative;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.clubs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.club {
+    background: linear-gradient(171deg, rgba(194, 49, 21, 1) 0%, rgba(85, 16, 39, 1) 100%);
+    width: 250px;
+    height: 150px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    flex-direction: column;
+}
+
+.club:last-child {
+    margin-bottom: 20px;
+}
+
+.club:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.club::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+    z-index: 1; 
+    opacity: 0;
+}
+
+.club:hover::before {
+    opacity: 1;
+}
+
+.club h2 {
+    color: #fff;
+    text-align: center;
+    z-index: 2; 
+    transition: opacity 0.3s ease;
+}
+
+.club:hover h2 {
+    opacity: 0.4; 
+    transition: opacity 0.3s ease;
+}
+.edit-btn, .delete-btn {
+    display: block;
+    margin: 5px;
+    background-color: none;
+    position: absolute;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 3; 
+    transition: opacity 0.3s ease;
+    opacity: 0; 
+}
+
+.edit-btn {
+    top: 0;
+    left: 0;
+}
+
+.delete-btn {
+    top: 0;
+    right: 0;
+}
+
+.club:hover .edit-btn, 
+.club:hover .delete-btn {
+    opacity: 1;
+}
+
+.delete-btn {
+    background-color: #d9534f;
+}
+
+.delete-form, .edit-form {
+    z-index: 999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.delete-form p {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.edit-form form,
+.delete-form form {
     display: flex;
     flex-direction: column;
 }
 
-.cont-h1 {
+.edit-form input[type="text"],
+.delete-form button {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.edit-form button, .delete-form button {
+    background-color: rgb(194, 49, 21);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-form button:hover, .delete-form button:hover {
+    background-color: #c9302c;
+}
+
+.add-form {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-form form {
     display: flex;
+    flex-direction: column;
+}
+
+.add-form input[type="text"],
+.add-form button {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.add-form button {
+    background-color: rgb(194, 49, 21);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-form button:hover {
+    background-color: #c9302c;
+}
+
+.add-btn {
+    position: relative;
+    border: 2px solid rgb(194, 49, 21);
+    padding: 10px 25px;
+    margin: 20px 0;
+    border-radius: 5px;
+    color: rgb(194, 49, 21);
+    font-size: 1.2rem;
+    background-color: transparent;
+    overflow: hidden;
+    transition: color 0.4s ease;
+}
+
+.add-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-color: rgb(194, 49, 21);
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    z-index: 0;
+}
+
+.add-btn:hover {
+    color: white;
+}
+
+.add-btn:hover::after {
+    transform: translateY(0);
+}
+
+.add-btn span {
+    position: relative;
+    z-index: 1;
+}
+.edit-form, .delete-form, .add-form {
+    z-index: 10;
+}
+.infoingre {
+    z-index: 1;
     justify-content: center;
-    width: 100%;
+    align-items: center;
+    display: flex;
+    font-size: large;
+    color: white;
+    position: relative;
+    bottom: -25;
+    background-color: rgba(255, 0, 0, 0.378);
+    padding:  0 10px;
+    border-radius: 5px;
+}
+
+.ingredient-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    background-color: black;
 }
