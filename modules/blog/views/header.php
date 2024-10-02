@@ -6,9 +6,14 @@
     <title>Tenrac</title>
     <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
+    <link rel="icon" type="image/png" href="/_assets/images/icons/icon.ico">
 </head>
 <header class="header">
-    <a href="/">
+    <?php if(isset($_SESSION['email'])) { ?>
+        <a href="/?page=dashboard">
+    <?php } else {?>
+        <a href="/">
+    <?php } ?>
         <div class="logo"></div>
     </a>
     <nav>

@@ -57,18 +57,25 @@ class ClubDao
     }
 
     /**
-     * Supprimer un club en fonction de son ID.
+     * Supprimer un club en fonction de son ID. Si on supprime un club alors tout les membres de ce club n'y sont plus affectés.
      *
      * @param int $id_club L'ID du club à supprimer.
      * @return bool Retourne true si la suppression a réussi, sinon false.
      */
     public function deleteClubById(int $id_club): bool
     {
-        $stmt = $this->db->prepare("DELETE FROM club WHERE id_club = :id_club");
-        $stmt->bindValue(':id_club', $id_club, PDO::PARAM_INT);
+        $supp = $this->db->prepare("UPDATE Tenrac SET id_club = NULL WHERE id_club = :id_club");
+        $supp->bindValue(':id_club', $id_club, PDO::PARAM_INT);
 
-        return $stmt->execute();
+        if ($supp->execute()) {
+            $stmt = $this->db->prepare("DELETE FROM club WHERE id_club = :id_club");
+            $stmt->bindValue(':id_club', $id_club, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
+    
+        return false;
     }
+    
 
     /**
      * Modifier le nom d'un club en fonction de son ID.

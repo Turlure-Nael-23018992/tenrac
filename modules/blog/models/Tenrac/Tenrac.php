@@ -8,7 +8,7 @@ class Tenrac
     private string $tel;           // Numéro de téléphone du tenrac
     private string $adresse;       // Adresse du tenrac
     private string $grade;         // Grade du tenrac
-    private int $id_club;          // Identifiant du club associé
+    private ?int $id_club;          // Identifiant du club associé
     private int $id_ordre;         // Identifiant de l'ordre associé
     private ?string $rang;         // Rang du tenrac (facultatif)
     private ?string $titre;        // Titre du tenrac (facultatif)
@@ -36,7 +36,7 @@ class Tenrac
         string $tel,
         string $adresse,
         string $grade,
-        int $id_club,
+        ?int $id_club,
         int $id_ordre,
         ?string $rang = null,
         ?string $titre = null,
@@ -114,7 +114,7 @@ class Tenrac
      *
      * @return int L'ID du club.
      */
-    public function getIdClub(): int {
+    public function getIdClub(): ?int {
         return $this->id_club;
     }
 
