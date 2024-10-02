@@ -1,6 +1,12 @@
 <?php
-
+/**
+ * Classe PlatPage
+ *
+ * Gère l'affichage des plats, les opérations CRUD (Créer, Lire, Mettre à jour, Supprimer)
+ * et la recherche par ingrédients.
+ */
 class PlatPage {
+
     private $plats;
     private $platDao;
 
