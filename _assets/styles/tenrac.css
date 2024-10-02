@@ -141,3 +141,8 @@
     color: #C23115;
     margin-bottom: 20px;
 }
+#editTenracForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
