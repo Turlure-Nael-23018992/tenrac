@@ -69,12 +69,12 @@ class TenracPage {
                             </div>
                             <?php if (isset($_SESSION['email'])) { ?>
                             <div class="card-footer">
-                                <form method="POST" action="" style="display:inline;">
+                                <form method="POST" action="/?page=tenrac" style="display:inline;">
                                     <input type="hidden" name="action" value="edit">
                                     <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
                                     <button type="submit" class="edit-btn">Modifier</button>
                                 </form>
-                                <form method="POST" action="" style="display:inline;">
+                                <form method="POST" action="/?page=tenrac" style="display:inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
                                     <button type="submit" class="delete-btn">Supprimer</button>
@@ -88,7 +88,7 @@ class TenracPage {
             <?php if (isset($_SESSION['email'])) { ?>
             <div class="add-tenrac-form">
                 <h2>Ajouter un Tenrac</h2>
-                <form method="POST" action="">
+                <form method="POST" action="/?page=tenrac">
                     <input type="hidden" name="action" value="add">
                     <label for="nom">Nom du Tenrac :</label>
                     <input type="text" id="nom" name="nom" required>
@@ -119,7 +119,7 @@ class TenracPage {
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h2>Modifier un Tenrac</h2>
-                    <form id="editTenracForm" method="POST" action="">
+                    <form id="editTenracForm" method="POST" action="/?page=tenrac">
                         <input type="hidden" name="action" value="edit">
                         <input type="hidden" id="edit_id_tenrac" name="id_tenrac" value="">
 
@@ -152,6 +152,7 @@ class TenracPage {
             <?php } ?>
         </main>
         <?php include_once 'footer.php' ?>
+        
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var modal = document.getElementById('editModal');
@@ -191,7 +192,7 @@ class TenracPage {
                 }
             });
         </script>
-
+        </html>
         <?php
     }
 

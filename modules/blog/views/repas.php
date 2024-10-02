@@ -70,7 +70,7 @@ class RepasPage {
                 <?php if (isset($_SESSION['email'])) { ?>
                 <div class="add-repas">
                     <h2>Ajouter un repas</h2>
-                    <form method="POST" action="">
+                    <form method="POST" action="/?page=repas">
                         <input type="hidden" name="action" value="add">
                         <label for="adresse">Adresse :</label>
                         <input type="text" id="adresse" name="adresse" required>
@@ -91,6 +91,7 @@ class RepasPage {
             </div>
         </main>
         <?php include_once "footer.php";
+        ?> </html> <?php
     }
 
     private function addRepas($adresse, $date_repas, $id_repas, $horaire): void {

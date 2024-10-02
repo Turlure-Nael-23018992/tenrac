@@ -31,6 +31,7 @@ class Homepage{
     </section>
 </main>
 <?php include_once 'footer.php'; ?>
+</html>
 </body>
 <?php
     }

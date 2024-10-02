@@ -3,4 +3,3 @@
     <p>Fait avec ❤️</p>
 </footer>
 <script src="/_assets/scripts/login.js"></script>
-</html>

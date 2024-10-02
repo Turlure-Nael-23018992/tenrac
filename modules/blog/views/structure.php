@@ -21,6 +21,7 @@ class Structure {
 
         include 'header.php';
         ?>
+        
         <main class="structure-main">
             <div class="clubs-container">
                 <div class="ordre">
@@ -51,7 +52,7 @@ class Structure {
         <?php endif; ?>
 
         <div id="addForm" class="add-form">
-            <form method="POST" action="">
+            <form method="POST" action="/?page=structure">
                 <input type="hidden" name="action" value="add">
                 <label for="addClubName">Nom du club :</label>
                 <input type="text" id="addClubName" name="nom_club" required>
@@ -61,7 +62,7 @@ class Structure {
         </div>
 
         <div id="editForm" class="edit-form" style="display:none;">
-            <form method="POST" action="">
+            <form method="POST" action="/?page=structure">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" id="editClubId" name="id_club">
                 <label for="editClubName">Nom du club :</label>
@@ -72,7 +73,7 @@ class Structure {
         </div>
 
         <div id="deleteForm" class="delete-form" style="display:none;">
-            <form method="POST" action="">
+            <form method="POST" action="/?page=structure">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" id="deleteClubId" name="id_club">
                 <p>Êtes-vous sûr de vouloir supprimer ce club ?</p>
@@ -81,7 +82,7 @@ class Structure {
         </div>
         </main>
         <?php include_once 'footer.php'; ?>
-
+        
         <script>
             function openEditForm(id, name) {
                 document.getElementById('editClubId').value = id;
@@ -102,6 +103,7 @@ class Structure {
                 }
             }
         </script>
+        </html>
         <?php
     }
 

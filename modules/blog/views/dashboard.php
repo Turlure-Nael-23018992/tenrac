@@ -82,6 +82,7 @@ class Dashboard{
             </div>
             </main>
         <?php include 'footer.php';
+        ?> </html> <?php
     }
 }
 ?>

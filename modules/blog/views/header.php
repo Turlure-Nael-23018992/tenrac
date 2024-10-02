@@ -5,15 +5,29 @@
 <html lang="fr">
 <head>
     <title>Tenrac</title>
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
+    <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/login.css">
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/tenrac.css">
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/repas.css">
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/dashboard.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
+
+    <?php if (isset($_GET['page']) && $_GET['page'] === 'structure') { ?>
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
+    <?php } ?>
+    <?php if (isset($_GET['page']) && $_GET['page'] === 'repas') { ?>
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/repas.css">
+    <?php } ?>
+    <?php if (isset($_GET['page']) && $_GET['page'] === 'dashboard') { ?>
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/tenrac.css">
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/dashboard.css">
+    <?php } ?>
+    <?php if (isset($_GET['page']) && $_GET['page'] === 'tenrac') { ?>
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/tenrac.css">
+    <?php } ?>
+    <?php if (isset($_GET['page']) && $_GET['page'] === 'plats') { ?>
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
+    <?php } ?>
 
     <link rel="icon" type="image/png" href="/_assets/images/icons/icon.ico">
 </head>

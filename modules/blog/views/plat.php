@@ -80,7 +80,7 @@ class PlatPage {
                             </button>
                         <?php endif; ?>
                         <!-- Formulaire de visualisation des ingrédients -->
-                        <form method="POST" action="" class="infoingre">
+                        <form method="POST" action="/?page=plats" class="infoingre">
                             <input type="hidden" name="action" value="infoingre">
                             <input type="hidden" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
                             <button type="submit">i</button>
@@ -93,7 +93,7 @@ class PlatPage {
                     <span>Ajouter un plat</span>
                 </button>
                 <div>
-                    <form action="" method="post">
+                    <form action="/?page=plats" method="post">
                         <input type="search" name="search" placeholder="Rechercher un plat">
                         <button type="submit">Rechercher</button>
                     </form>
@@ -131,14 +131,14 @@ class PlatPage {
         </main>
 
         
-        <form method="POST" action="" style="display:none;" class="edit-form" id="editForm">
+        <form method="POST" action="/?page=plats" style="display:none;" class="edit-form" id="editForm">
             <input type="hidden" name="action" value="edit">
             <input type="hidden" id="id_plat" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
             <input type="text" id="nom_plat" name="nom_plat" value="<?= htmlspecialchars($plat->getNom()) ?>" required>
             <button type="submit">Modifier</button>
         </form>
         <div id="deleteForm" class="delete-form" style="display:none;">
-            <form method="POST" action="">
+            <form method="POST" action="/?page=plats">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" id="deleteClubId" name="id_plat">
                 <p>Êtes-vous sûr de vouloir supprimer ce plat ?</p>
@@ -147,7 +147,7 @@ class PlatPage {
         </div>
 
         <div id="addForm" class="add-form">
-            <form method="POST" action="">
+            <form method="POST" action="/?page=plats">
                 <input type="hidden" name="action" value="add">
                 <label for="addPlat">Nom du plat :</label>
                 <input type="text" id="addPlat" name="nom_plat" required>
@@ -173,6 +173,7 @@ class PlatPage {
             }
         </script>
         <?php include_once "footer.php"; ?>
+        </html>
         <?php
     }
 
