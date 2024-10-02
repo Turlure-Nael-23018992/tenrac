@@ -1,30 +1,12 @@
 <?php
 
-/**
- * Classe représentant une page pour la gestion des Tenracs.
- */
 class TenracPage {
-    /**
-     * Liste des tenracs.
-     *
-     * @var array
-     */
     private array $tenracs;
 
-    /**
-     * Constructeur de la classe TenracPage.
-     *
-     * @param array $tenracs Liste initiale des tenracs.
-     */
     public function __construct(array $tenracs) {
         $this->tenracs = $tenracs;
     }
 
-    /**
-     * Affiche la page des tenracs et traite les formulaires d'ajout, suppression et modification.
-     *
-     * @return void
-     */
     public function show(): void {
         // Traitement des formulaires
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -68,10 +50,7 @@ class TenracPage {
                 }
             }
         }
-
         include 'header.php';
-
-        // Affichage du contenu
         ?>
         <main>
             <div class="tenracs-container">
@@ -89,71 +68,134 @@ class TenracPage {
                                 <p><strong>Grade :</strong> <?= htmlspecialchars($tenrac->getGrade()) ?></p>
                             </div>
                             <?php if (isset($_SESSION['email'])) { ?>
-                                <div class="card-footer">
-                                    <form method="POST" action="" style="display:inline;">
-                                        <input type="hidden" name="action" value="edit">
-                                        <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
-                                        <button type="submit" class="edit-btn">Modifier</button>
-                                    </form>
-                                    <form method="POST" action="" style="display:inline;">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
-                                        <button type="submit" class="delete-btn">Supprimer</button>
-                                    </form>
-                                </div>
+                            <div class="card-footer">
+                                <form method="POST" action="/?page=tenrac" style="display:inline;">
+                                    <input type="hidden" name="action" value="edit">
+                                    <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
+                                    <button type="submit" class="edit-btn">Modifier</button>
+                                </form>
+                                <form method="POST" action="/?page=tenrac" style="display:inline;">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id_tenrac" value="<?= htmlspecialchars($tenrac->getIdTenrac()) ?>">
+                                    <button type="submit" class="delete-btn">Supprimer</button>
+                                </form>
+                            </div>
                             <?php } ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
             </div>
             <?php if (isset($_SESSION['email'])) { ?>
-                <div class="add-tenrac-form">
-                    <h2>Ajouter un Tenrac</h2>
-                    <form method="POST" action="">
-                        <input type="hidden" name="action" value="add">
-                        <label for="nom">Nom du Tenrac :</label>
-                        <input type="text" id="nom" name="nom" required>
+            <div class="add-tenrac-form">
+                <h2>Ajouter un Tenrac</h2>
+                <form method="POST" action="/?page=tenrac">
+                    <input type="hidden" name="action" value="add">
+                    <label for="nom">Nom du Tenrac :</label>
+                    <input type="text" id="nom" name="nom" required>
 
-                        <label for="couriel">Courriel :</label>
-                        <input type="email" id="couriel" name="couriel" required>
+                    <label for="couriel">Courriel :</label>
+                    <input type="email" id="couriel" name="couriel" required>
 
-                        <label for="tel">Téléphone :</label>
-                        <input type="text" id="tel" name="tel" required>
+                    <label for="tel">Téléphone :</label>
+                    <input type="text" id="tel" name="tel" required>
 
-                        <label for="adresse">Adresse :</label>
-                        <input type="text" id="adresse" name="adresse" required>
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" id="adresse" name="adresse" required>
 
-                        <label for="grade">Grade :</label>
-                        <input type="text" id="grade" name="grade" required>
+                    <label for="grade">Grade :</label>
+                    <input type="text" id="grade" name="grade" required>
 
-                        <label for="id_club">ID Club :</label>
-                        <input type="number" id="id_club" name="id_club" required>
+                    <label for="id_club">ID Club :</label>
+                    <input type="number" id="id_club" name="id_club" required>
 
-                        <label for="id_ordre">ID Ordre :</label>
-                        <input type="number" id="id_ordre" name="id_ordre" required>
+                    <label for="id_ordre">ID Ordre :</label>
+                    <input type="number" id="id_ordre" name="id_ordre" required>
 
-                        <button type="submit">Ajouter</button>
+                    <button type="submit">Ajouter</button>
+                </form>
+            </div>
+            <?php if (isset($_SESSION['email'])) { ?>
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Modifier un Tenrac</h2>
+                    <form id="editTenracForm" method="POST" action="/?page=tenrac">
+                        <input type="hidden" name="action" value="edit">
+                        <input type="hidden" id="edit_id_tenrac" name="id_tenrac" value="">
+
+                        <label for="edit_nom">Nom du Tenrac :</label>
+                        <input type="text" id="edit_nom" name="nom" required>
+
+                        <label for="edit_couriel">Courriel :</label>
+                        <input type="email" id="edit_couriel" name="couriel" required>
+
+                        <label for="edit_tel">Téléphone :</label>
+                        <input type="text" id="edit_tel" name="tel" required>
+
+                        <label for="edit_adresse">Adresse :</label>
+                        <input type="text" id="edit_adresse" name="adresse" required>
+
+                        <label for="edit_grade">Grade :</label>
+                        <input type="text" id="edit_grade" name="grade" required>
+
+                        <label for="edit_id_club">ID Club :</label>
+                        <input type="number" id="edit_id_club" name="id_club" required>
+
+                        <label for="edit_id_ordre">ID Ordre :</label>
+                        <input type="number" id="edit_id_ordre" name="id_ordre" required>
+
+                        <button type="submit">Enregistrer les modifications</button>
                     </form>
                 </div>
+            </div>
+            <?php } ?>
             <?php } ?>
         </main>
         <?php include_once 'footer.php' ?>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var modal = document.getElementById('editModal');
+                var span = document.getElementsByClassName('close')[0];
+
+                document.querySelectorAll('.edit-btn').forEach(function(button) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+
+                        var card = this.closest('.card');
+                        var idTenrac = card.querySelector('input[name="id_tenrac"]').value;
+                        var nom = card.querySelector('h2').innerText;
+                        var couriel = card.querySelector('p:nth-of-type(1)').innerText.replace("Email :", "").trim();
+                        var tel = card.querySelector('p:nth-of-type(2)').innerText.replace("Téléphone :", "").trim();
+                        var adresse = card.querySelector('p:nth-of-type(3)').innerText.replace("Adresse :", "").trim();
+                        var grade = card.querySelector('p:nth-of-type(4)').innerText.replace("Grade :", "").trim();
+
+                        document.getElementById('edit_id_tenrac').value = idTenrac;
+                        document.getElementById('edit_nom').value = nom;
+                        document.getElementById('edit_couriel').value = couriel;
+                        document.getElementById('edit_tel').value = tel;
+                        document.getElementById('edit_adresse').value = adresse;
+                        document.getElementById('edit_grade').value = grade;
+
+                        modal.style.display = "block";
+                    });
+                });
+
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            });
+        </script>
+        </html>
         <?php
     }
 
-    /**
-     * Ajoute un tenrac à la base de données.
-     *
-     * @param string $nom Le nom du Tenrac.
-     * @param string $couriel Le courriel du Tenrac.
-     * @param string $tel Le téléphone du Tenrac.
-     * @param string $adresse L'adresse du Tenrac.
-     * @param string $grade Le grade du Tenrac.
-     * @param int $id_club L'identifiant du club du Tenrac.
-     * @param int $id_ordre L'identifiant de l'ordre du Tenrac.
-     *
-     * @return void
-     */
     private function addTenrac($nom, $couriel, $tel, $adresse, $grade, $id_club, $id_ordre) {
         $tenracDao = new TenracDao(Database::getInstance());
 
@@ -165,13 +207,6 @@ class TenracPage {
         }
     }
 
-    /**
-     * Supprime un tenrac de la base de données.
-     *
-     * @param int $id_tenrac L'identifiant du Tenrac à supprimer.
-     *
-     * @return void
-     */
     private function deleteTenrac($id_tenrac) {
         $tenracDao = new TenracDao(Database::getInstance());
 
@@ -183,13 +218,15 @@ class TenracPage {
         }
     }
 
-    /**
-     * Modifie un tenrac existant dans la base de données.
-     *
-     * @param int $id_tenrac L'identifiant du Tenrac.
-     * @param string $nom Le nom du Tenrac.
-     * @param string $couriel Le courriel du Tenrac.
-     * @param string $tel Le téléphone du Tenrac.
-     * @param string $adresse L'adresse du Tenrac.
-     * @param string $grade Le grade du Tenrac.
-     * @param int $id_club L'identifiant du club.**/
+    private function editTenrac($id_tenrac, $nom, $couriel, $tel, $adresse, $grade, $id_club, $id_ordre) {
+        $tenracDao = new TenracDao(Database::getInstance());
+
+        if ($tenracDao->editTenrac($id_tenrac, $nom, $couriel, $tel, $adresse, $grade, $id_club, $id_ordre)) {
+            echo '<p class="success-message">Le tenrac a été modifié avec succès !</p>';
+            $this->tenracs = $tenracDao->getAllTenracs();
+        } else {
+            echo '<p class="error-message">Erreur lors de la modification du tenrac.</p>';
+        }
+    }
+}
+?>

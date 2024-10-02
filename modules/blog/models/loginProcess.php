@@ -8,10 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = isset($_POST['mdp']) ? $_POST['mdp'] : '';
 
     if (empty($email) || empty($password)) {
-        die('Veuillez remplir tous les champs.');
+        echo "<script>alert('Veuillez remplir tous les champs.'); window.history.back();</script>";
+        exit;
     }
+
     $query = "SELECT * FROM Tenrac WHERE couriel = :courriel";
-    
+
     try {
         $stmt = Database::getInstance()->prepare($query);
         $stmt->bindParam(':courriel', $email);
@@ -23,14 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['couriel'];
                 header('Location: /?page=dashboard');
+                exit;
             } else {
-                die('Le mot de passe est incorrect.');
+                echo "<script>alert('Mot de passe ou email invalide'); window.history.back();</script>";
+                exit;
             }
         } else {
-            die('Utilisateur non trouvé.');
+            echo "<script>alert('Utilisateur non trouvé.'); window.history.back();</script>";
+            exit;
         }
     } catch (PDOException $e) {
-        die("Erreur de base de données : " . $e->getMessage());
+        echo "<script>alert('Erreur de base de données : " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
+        exit;
     }
 }
 ?>

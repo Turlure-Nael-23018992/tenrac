@@ -8,9 +8,8 @@ class Homepage{
 
     public function show():void{
 ?>
+<body>
 <?php include_once 'header.php';  ?>
-
-
 <main>
     <section class="presentation-container">
         <div class="text-container">
@@ -31,9 +30,9 @@ class Homepage{
         </div>
     </section>
 </main>
-
 <?php include_once 'footer.php'; ?>
-
+</html>
+</body>
 <?php
     }
 }

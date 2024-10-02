@@ -141,3 +141,12 @@
     font-weight: 600;
     margin: 1rem 0;
 }
+@media only screen and (max-width: 600px) {
+    
+    .form-container input {
+        width: 20%;
+    }
+    .form-container button {
+        width: 20%;
+    }
+}

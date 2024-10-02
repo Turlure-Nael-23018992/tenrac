@@ -1,7 +1,6 @@
 const loginElement = document.getElementById("login");
 const cont_login = document.getElementById("cont_login");
 const container = document.querySelector(".formco-container")
-console.log('loginElement');
 cont_login.addEventListener("click", function(element) {
     if (getComputedStyle(loginElement).display ==  "flex" && !loginElement.contains(element.target)) {
         popup();
@@ -11,7 +10,6 @@ cont_login.addEventListener("click", function(element) {
 
 // Fonction pour toggle le formulaire de login
 function popup() {
-    console.log(getComputedStyle(loginElement).display );
   if (getComputedStyle(loginElement).display === "flex") {
     cont_login.style.display = "none";
     container.style.display = "none";

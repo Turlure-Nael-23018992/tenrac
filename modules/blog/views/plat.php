@@ -1,12 +1,6 @@
 <?php
-/**
- * Classe PlatPage
- *
- * Gère l'affichage des plats, les opérations CRUD (Créer, Lire, Mettre à jour, Supprimer)
- * et la recherche par ingrédients.
- */
-class PlatPage {
 
+class PlatPage {
     private $plats;
     private $platDao;
 
@@ -64,6 +58,7 @@ class PlatPage {
 
         include 'header.php';
         ?>
+
         <main class="structure-main">
             <div class="clubs-container">
                 <div class="ordre">
@@ -85,7 +80,7 @@ class PlatPage {
                             </button>
                         <?php endif; ?>
                         <!-- Formulaire de visualisation des ingrédients -->
-                        <form method="POST" action="" class="infoingre">
+                        <form method="POST" action="/?page=plats" class="infoingre">
                             <input type="hidden" name="action" value="infoingre">
                             <input type="hidden" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
                             <button type="submit">i</button>
@@ -98,7 +93,7 @@ class PlatPage {
                     <span>Ajouter un plat</span>
                 </button>
                 <div>
-                    <form action="" method="post">
+                    <form action="/?page=plats" method="post">
                         <input type="search" name="search" placeholder="Rechercher un plat">
                         <button type="submit">Rechercher</button>
                     </form>
@@ -132,38 +127,34 @@ class PlatPage {
                     <p>Aucun ingrédient trouvé pour ce plat.</p>
                 <?php endif; ?>
             </div>
-            <div id="addForm" class="add-form">
-            <form method="POST" action="">
+
+        </main>
+
+        
+        <form method="POST" action="/?page=plats" style="display:none;" class="edit-form" id="editForm">
+            <input type="hidden" name="action" value="edit">
+            <input type="hidden" id="id_plat" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
+            <input type="text" id="nom_plat" name="nom_plat" value="<?= htmlspecialchars($plat->getNom()) ?>" required>
+            <button type="submit">Modifier</button>
+        </form>
+        <div id="deleteForm" class="delete-form" style="display:none;">
+            <form method="POST" action="/?page=plats">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" id="deleteClubId" name="id_plat">
+                <p>Êtes-vous sûr de vouloir supprimer ce plat ?</p>
+                <button type="submit">Supprimer</button>
+            </form>
+        </div>
+
+        <div id="addForm" class="add-form">
+            <form method="POST" action="/?page=plats">
                 <input type="hidden" name="action" value="add">
-                <label for="addClubName">Nom du club :</label>
-                <input type="text" id="addClubName" name="nom_club" required>
+                <label for="addPlat">Nom du plat :</label>
+                <input type="text" id="addPlat" name="nom_plat" required>
                 <input type="hidden" name="id_ordre" value="1">
                 <button type="submit">Ajouter</button>
             </form>
         </div>
-
-        <div id="editForm" class="edit-form" style="display:none;">
-            <form method="POST" action="">
-                <input type="hidden" name="action" value="edit">
-                <input type="hidden" id="id_plat" name="id_plat">
-                <label for="editClubName">Nom du club :</label>
-                <input type="text" id="editClubName" name="nom_club" required>
-                <input type="hidden" name="id_ordre" value="1">
-                <button type="submit">Enregistrer</button>
-            </form>
-        </div>
-
-        <div id="deleteForm" class="delete-form" style="display:none;">
-            <form method="POST" action="">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" id="deleteClubId" name="id_club">
-                <p>Êtes-vous sûr de vouloir supprimer ce club ?</p>
-                <button type="submit">Supprimer</button>
-            </form>
-        </div>
-        </main>
-        
-        <?php include_once "footer.php"; ?>
         <script>
             function openEditForm(id, name) {
                 document.getElementById('id_plat').value = id;
@@ -181,7 +172,8 @@ class PlatPage {
                 addForm.style.display = (addForm.style.display === 'block') ? 'none' : 'block';
             }
         </script>
-
+        <?php include_once "footer.php"; ?>
+        </html>
         <?php
     }
 

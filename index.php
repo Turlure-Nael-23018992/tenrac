@@ -12,6 +12,7 @@ function loadPage($page, PDO $pdo) {
     switch ($page) {
         case 'homepage':
             require_once __DIR__ . '/modules/blog/views/homepage.php';
+            $title = 'Accueil';
             (new HomePageController())->execute();
             break;
         case 'structure':

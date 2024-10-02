@@ -1,33 +1,11 @@
 <?php
-/**
- * Classe Structure qui gère l'affichage et la gestion des clubs.
- *
- * Cette classe permet d'afficher les clubs et propose des fonctionnalités
- * pour ajouter, modifier et supprimer un club.
- */
 class Structure {
-    /**
-     * @var array $clubs Tableau contenant la liste des clubs.
-     */
     private $clubs;
 
-    /**
-     * Constructeur de la classe Structure.
-     *
-     * @param array $clubs Tableau des clubs à afficher.
-     */
     public function __construct($clubs) {
         $this->clubs = $clubs;
     }
 
-    /**
-     * Méthode pour afficher les clubs et traiter les formulaires.
-     *
-     * Cette méthode traite les actions POST pour ajouter, modifier ou supprimer un club,
-     * puis affiche la liste des clubs. Elle inclut également des formulaires pour ces actions.
-     *
-     * @return void
-     */
     public function show(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit') {
             $this->editClub($_POST['id_club'], $_POST['nom_club'], $_POST['id_ordre']);
@@ -42,38 +20,106 @@ class Structure {
         }
 
         include 'header.php';
-        // Affichage HTML des clubs et des formulaires
+        ?>
+        
+        <main class="structure-main">
+            <div class="clubs-container">
+                <div class="ordre">
+                    <h1>Ordre des Tenracs</h1>
+                    <img src="_assets/images/ordredestenracs.png" alt="Ordre des Tenracs" />
+                </div>
+            </div>
+            <div class="clubs">
+            <?php foreach ($this->clubs as $club): ?>
+                <div class="club">
+                    <h2><?= htmlspecialchars($club->getNom()) ?></h2>
+
+                    <?php if (isset($_SESSION['email'])): ?>
+                        <button class="edit-btn" onclick="openEditForm(<?= htmlspecialchars($club->getIdClub()) ?>, '<?= htmlspecialchars($club->getNom()) ?>')">
+                            <ion-icon name="create-outline">Modifier</ion-icon>
+                        </button>
+                        <button class="delete-btn" onclick="openDeleteForm(<?= htmlspecialchars($club->getIdClub()) ?>)">
+                            <ion-icon name="trash-outline">Supprimer</ion-icon>
+                        </button>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php if (isset($_SESSION['email'])): ?>
+            <button class="add-btn" onclick="openAddForm()">
+                <span>Ajouter un club</span>
+            </button>
+        <?php endif; ?>
+
+        <div id="addForm" class="add-form">
+            <form method="POST" action="/?page=structure">
+                <input type="hidden" name="action" value="add">
+                <label for="addClubName">Nom du club :</label>
+                <input type="text" id="addClubName" name="nom_club" required>
+                <input type="hidden" name="id_ordre" value="1">
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+
+        <div id="editForm" class="edit-form" style="display:none;">
+            <form method="POST" action="/?page=structure">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" id="editClubId" name="id_club">
+                <label for="editClubName">Nom du club :</label>
+                <input type="text" id="editClubName" name="nom_club" required>
+                <input type="hidden" name="id_ordre" value="1">
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+
+        <div id="deleteForm" class="delete-form" style="display:none;">
+            <form method="POST" action="/?page=structure">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" id="deleteClubId" name="id_club">
+                <p>Êtes-vous sûr de vouloir supprimer ce club ?</p>
+                <button type="submit">Supprimer</button>
+            </form>
+        </div>
+        </main>
+        <?php include_once 'footer.php'; ?>
+        
+        <script>
+            function openEditForm(id, name) {
+                document.getElementById('editClubId').value = id;
+                document.getElementById('editClubName').value = name;
+                document.getElementById('editForm').style.display = 'block';
+            }
+
+            function openDeleteForm(id) {
+                document.getElementById('deleteClubId').value = id;
+                document.getElementById('deleteForm').style.display = 'block';
+            }
+
+            function openAddForm() {
+                if (document.getElementById('addForm').style.display === 'block') {
+                    document.getElementById('addForm').style.display = 'none';
+                } else {
+                    document.getElementById('addForm').style.display = 'block';
+                }
+            }
+        </script>
+        </html>
+        <?php
     }
 
-    /**
-     * Ajoute un nouveau club dans la base de données.
-     *
-     * Cette méthode prend le nom du club et l'ID de l'ordre associé,
-     * puis ajoute le club dans la base de données via ClubDao.
-     *
-     * @param string $nom_club Le nom du club à ajouter.
-     * @param int $id_ordre L'ID de l'ordre auquel le club est associé.
-     * @return void
-     */
     function addClub($nom_club, $id_ordre) {
         $clubDao = new ClubDao(Database::getInstance());
 
         if ($clubDao->addClub($nom_club, $id_ordre)) {
-            echo '<p class="success-message">Le club a été ajouté avec succès !</p>';
+            echo <<<HTML
+            <p class="success-message">Le club a été ajouté avec succès !</p>
+            HTML;
             $this->clubs = $clubDao->getLastClubs(10);
         } else {
             echo '<p class="error-message">Erreur lors de l\'ajout du club.</p>';
         }
     }
 
-    /**
-     * Supprime un club de la base de données.
-     *
-     * Cette méthode prend l'ID d'un club et le supprime de la base de données via ClubDao.
-     *
-     * @param int $id_club L'ID du club à supprimer.
-     * @return void
-     */
     private function deleteClub($id_club) {
         $clubDao = new ClubDao(Database::getInstance());
 
@@ -85,17 +131,6 @@ class Structure {
         }
     }
 
-    /**
-     * Modifie les informations d'un club dans la base de données.
-     *
-     * Cette méthode prend l'ID du club, le nom modifié, et l'ID de l'ordre associé,
-     * puis met à jour le club dans la base de données via ClubDao.
-     *
-     * @param int $id_club L'ID du club à modifier.
-     * @param string $nom_club Le nouveau nom du club.
-     * @param int $id_ordre L'ID de l'ordre auquel le club est associé.
-     * @return void
-     */
     private function editClub($id_club, $nom_club, $id_ordre) {
         $clubDao = new ClubDao(Database::getInstance());
 
