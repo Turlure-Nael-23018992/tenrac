@@ -11,11 +11,11 @@
             <form action='modules/blog/models/loginProcess.php' method="post" class="form_login">
                     <label>
                         Email :
-                        <input type="courriel" id="courriel" name="courriel" maxlength="80" placeholder="Entrez votre email"/>
+                        <input type="email" id="courriel" name="courriel" maxlength="80" placeholder="Entrez votre email">
                     </label>
                     <label>
                         Email
-                        <input name="mdp" id="mdp" minlength="1" maxlength="100" type="password" placeholder="Enter your password"/>
+                        <input name="mdp" id="mdp" minlength="1" maxlength="100" type="password" placeholder="Enter your password">
                     </label>
                 <button class="login-button" type="submit">Se connecter</button>
             </form> 
