@@ -43,6 +43,19 @@
     <?php } ?>
         <div class="logo"></div>
     </a>
+    <div class="menu-burger-container">
+        <button class="menu-burger" onclick="toggleMenu()">
+            <ion-icon name="menu-outline"></ion-icon>
+        </button>
+        <nav>
+            <ul>
+                <li><a href="/?page=structure">Structure</a></li>
+                <li><a href="/?page=plats">Plats</a></li>
+                <li><a href="/?page=repas">Repas</a></li>
+                <li><a href="/?page=tenrac">Tenrac</a></li>
+            </ul>
+        </nav>
+    </div>
     <nav>
         <ul>
             <li><a href="/?page=structure">Structure</a></li>
@@ -76,7 +89,20 @@
     <?php include_once 'login.php'; ?>
 </div>
 <script>
+    function toggleMenu() {
+        if (document.querySelector("nav").style.display === "flex") {
 
+            document.querySelector("nav").style.display = "none";
+        } else {
+            document.querySelector("nav").style.display = "flex";
+            document.querySelector(".menu-burger-container").style.justifyContent = "center";
+            document.querySelector("ul").style.flexDirection = "column";
+            document.querySelector("ul").style.alignItems = "center";
+
+            
+
+        }
+    }
     let header = document.querySelector("header")
 
     document.addEventListener("scroll", () => {
