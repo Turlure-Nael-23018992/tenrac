@@ -9,22 +9,19 @@ class RepasPage {
     public function show(): void {
         // Traitement du formulaire d'ajout de repas
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Vérification si c'est le formulaire d'ajout
             if (isset($_POST['action']) && $_POST['action'] === 'add') {
                 $adresse = isset($_POST['adresse']) ? trim($_POST['adresse']) : '';
                 $date_repas = isset($_POST['date_repas']) ? trim($_POST['date_repas']) : '';
                 $id_repas = isset($_POST['id_repas']) ? (int)$_POST['id_repas'] : null;
                 $horaire = isset($_POST['horaire']) ? (float)$_POST['horaire'] : null;
 
-                // Vérification des champs
                 if (empty($adresse) || empty($date_repas) || is_null($id_repas) || is_null($horaire)) {
                     echo '<p class="error-message">Veuillez remplir tous les champs.</p>';
                 } else {
                     $this->addRepas($adresse, $date_repas, $id_repas, $horaire);
                 }
             }
-            
-            // Vérification si c'est le formulaire de suppression
+
             if (isset($_POST['action']) && $_POST['action'] === 'delete') {
                 $id_repas = isset($_POST['id_repas']) ? (int)$_POST['id_repas'] : null;
 
@@ -35,7 +32,6 @@ class RepasPage {
                 }
             }
 
-            // Vérification si c'est le formulaire de modification
             if (isset($_POST['action']) && $_POST['action'] === 'edit') {
                 $adresse = isset($_POST['adresse']) ? trim($_POST['adresse']) : '';
                 $date_repas = isset($_POST['date_repas']) ? trim($_POST['date_repas']) : '';
@@ -51,49 +47,29 @@ class RepasPage {
         }
         include 'header.php';
         ?>
+        <head>
+            <link rel="stylesheet" href="_assets/styles/repas.css">
+        </head>
         <main>
-            <div class="repas">
-                <h1>Nos Repas</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Adresse</th>
-                            <th>Date</th>
-                            <th>ID Repas</th>
-                            <th>Horaire</th>
-                            <?php if (isset($_SESSION['email'])) { ?>
-                            <th>Actions</th>
-                            <?php } ?>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($this->repas as $repas): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($repas->getAdresse()) ?></td>
-                                <td><?= htmlspecialchars($repas->getDateRepas()) ?></td>
-                                <td><?= htmlspecialchars($repas->getIdRepas()) ?></td>
-                                <td><?= htmlspecialchars($repas->getHoraire()) ?></td>
-                                <?php if (isset($_SESSION['email'])) { ?>
-                                <td>
-                                    <form method="POST" action="" style="display:inline;">
-                                        <input type="hidden" name="action" value="edit">
-                                        <input type="hidden" name="id_repas" value="<?= htmlspecialchars($repas->getIdRepas()) ?>">
-                                        <input type="text" name="adresse" value="<?= htmlspecialchars($repas->getAdresse()) ?>" required>
-                                        <input type="date" name="date_repas" value="<?= htmlspecialchars($repas->getDateRepas()) ?>" required>
-                                        <input type="text" name="horaire" value="<?= htmlspecialchars($repas->getHoraire()) ?>" required>
-                                        <button type="submit">Modifier</button>
-                                    </form>
-                                    <form method="POST" action="" style="display:inline;">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="id_repas" value="<?= htmlspecialchars($repas->getIdRepas()) ?>">
-                                        <button type="submit">Supprimer</button>
-                                    </form>
-                                </td>
-                                <?php } ?>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div class="repas-calendar">
+                <h1>Planning des Repas</h1>
+                <div class="calendar">
+                    <?php
+                    $daysOfWeek = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+                    foreach ($daysOfWeek as $day) {
+                        echo "<div class='calendar-day'>$day</div>";
+                    }
+
+                    foreach ($this->repas as $repas) {
+                        $day = date('N', strtotime($repas->getDateRepas())) - 1;
+                        echo "<div class='calendar-item' style='grid-column-start: " . ($day + 1) . ";'>";
+                        echo "<p>{$repas->getAdresse()}</p>";
+                        echo "<p>{$repas->getDateRepas()} - {$repas->getHoraire()}h</p>";
+                        echo "</div>";
+                    }
+                    ?>
+                </div>
+
                 <?php if (isset($_SESSION['email'])) { ?>
                 <div class="add-repas">
                     <h2>Ajouter un repas</h2>
@@ -145,12 +121,12 @@ class RepasPage {
     private function editRepas($adresse, $date_repas, $id_repas, $horaire): void {
         $planningRepasDao = new PlanningRepasDAO(Database::getInstance());
 
-        if ($planningRepasDao->updatePlanningRepas($id_repas, $nom)) {
+        if ($planningRepasDao->updatePlanningRepas($id_repas, $adresse, $date_repas, $horaire)) {
             echo '<p class="success-message">Le repas a été modifié avec succès !</p>';
             $this->repas = $planningRepasDao->getAllPlanningRepas();
         } else {
             echo '<p class="error-message">Erreur lors de la modification du repas.</p>';
         }
     }
-}   
+}
 ?>
