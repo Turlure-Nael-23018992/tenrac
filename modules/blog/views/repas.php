@@ -47,9 +47,6 @@ class RepasPage {
         }
         include 'header.php';
         ?>
-        <head>
-            <link rel="stylesheet" href="_assets/styles/repas.css">
-        </head>
         <main>
             <div class="repas-calendar">
                 <h1>Planning des Repas</h1>
@@ -93,7 +90,7 @@ class RepasPage {
                 <?php } ?>
             </div>
         </main>
-        <?php
+        <?php include_once "footer.php";
     }
 
     private function addRepas($adresse, $date_repas, $id_repas, $horaire): void {

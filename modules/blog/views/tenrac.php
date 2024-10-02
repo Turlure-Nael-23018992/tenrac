@@ -52,10 +52,6 @@ class TenracPage {
         }
         include 'header.php';
         ?>
-        <head>
-            <link rel="stylesheet" href="_assets/styles/tenrac.css">
-            <link rel="stylesheet" href="_assets/styles/footer.css">
-        </head>
         <main>
             <div class="tenracs-container">
                 <h1>Nos Tenracs</h1>

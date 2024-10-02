@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="/_assets/styles/tenrac.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/repas.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
 
     <link rel="icon" type="image/png" href="/_assets/images/icons/icon.ico">
 </head>

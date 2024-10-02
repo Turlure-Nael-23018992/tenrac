@@ -59,10 +59,6 @@ class PlatPage {
         include 'header.php';
         ?>
 
-        <head>
-            <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
-            <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
-        </head>
         <main class="structure-main">
             <div class="clubs-container">
                 <div class="ordre">
@@ -134,7 +130,7 @@ class PlatPage {
 
         </main>
 
-        <?php include_once "footer.php"; ?>
+        
         <form method="POST" action="" style="display:none;" class="edit-form" id="editForm">
             <input type="hidden" name="action" value="edit">
             <input type="hidden" id="id_plat" name="id_plat" value="<?= htmlspecialchars($plat->getIdPlat()) ?>">
@@ -176,7 +172,7 @@ class PlatPage {
                 addForm.style.display = (addForm.style.display === 'block') ? 'none' : 'block';
             }
         </script>
-
+        <?php include_once "footer.php"; ?>
         <?php
     }
 
