@@ -1,6 +1,3 @@
-<head>
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/login.css">
-</head>
 <section class="formco-container">
     <div class="formco" id="login">
         <div class="logo-login-container">
@@ -22,4 +19,3 @@
         </div>
     </div>
 </section>
-<script src="/_assets/scripts/login.js"></script>

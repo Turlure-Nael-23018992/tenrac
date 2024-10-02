@@ -8,12 +8,9 @@ class Homepage{
 
     public function show():void{
 ?>
-<head>
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
-    <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
-</head>
-<body>
 <?php include_once 'header.php';  ?>
+
+
 <main>
     <section class="presentation-container">
         <div class="text-container">
@@ -34,8 +31,9 @@ class Homepage{
         </div>
     </section>
 </main>
+
 <?php include_once 'footer.php'; ?>
-</body>
+
 <?php
     }
 }

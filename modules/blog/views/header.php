@@ -2,11 +2,16 @@
     session_start();
 ?>
 <!DOCTYPE html>
-<head>
+<html lang="fr">
+<head >
     <title>Tenrac</title>
     <meta name="description" content="Site des Tenracs">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/header.css">
     <link rel="stylesheet" type="text/css" href="/_assets/styles/styles.css">
+    <link rel="stylesheet" type="text/css" href="_assets/styles/tenrac.css">
+    <link rel="stylesheet" type="text/css" href="_assets/styles/footer.css">
+    <link rel="stylesheet" type="text/css" href="/_assets/styles/login.css">
+    <link rel="stylesheet" type="text/css" href="/_assets/styles/homepage.css">
 </head>
 <header class="header">
     <a href="/">
@@ -44,23 +49,3 @@
 <div id="cont_login">
     <?php include_once 'login.php'; ?>
 </div>
-<script>
-
-    let header = document.querySelector("header")
-
-    document.addEventListener("scroll", () => {
-        header.classList.toggle("sticky", window.scrollY > 0)
-    })
-
-    window.addEventListener('scroll', function () {
-        const scrollPosition = window.scrollY;
-        const maxScroll = document.body.scrollHeight - window.innerHeight; 
-
-        const angle = 171 + (scrollPosition / maxScroll) * 360 / 6;
-
-        document.querySelector('.header').style.background = `linear-gradient(${angle}deg, rgba(194,49,21,1) 0%, rgba(85,16,39,1) 100%)`;
-    });
-</script>
-
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

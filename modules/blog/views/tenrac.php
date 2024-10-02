@@ -52,10 +52,6 @@ class TenracPage {
         }
         include 'header.php';
         ?>
-        <head>
-            <link rel="stylesheet" href="_assets/styles/tenrac.css">
-            <link rel="stylesheet" href="_assets/styles/footer.css">
-        </head>
         <main>
             <div class="tenracs-container">
                 <h1>Nos Tenracs</h1>
@@ -156,45 +152,7 @@ class TenracPage {
             <?php } ?>
         </main>
         <?php include_once 'footer.php' ?>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var modal = document.getElementById('editModal');
-                var span = document.getElementsByClassName('close')[0];
-
-                document.querySelectorAll('.edit-btn').forEach(function(button) {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-
-                        var card = this.closest('.card');
-                        var idTenrac = card.querySelector('input[name="id_tenrac"]').value;
-                        var nom = card.querySelector('h2').innerText;
-                        var couriel = card.querySelector('p:nth-of-type(1)').innerText.replace("Email :", "").trim();
-                        var tel = card.querySelector('p:nth-of-type(2)').innerText.replace("Téléphone :", "").trim();
-                        var adresse = card.querySelector('p:nth-of-type(3)').innerText.replace("Adresse :", "").trim();
-                        var grade = card.querySelector('p:nth-of-type(4)').innerText.replace("Grade :", "").trim();
-
-                        document.getElementById('edit_id_tenrac').value = idTenrac;
-                        document.getElementById('edit_nom').value = nom;
-                        document.getElementById('edit_couriel').value = couriel;
-                        document.getElementById('edit_tel').value = tel;
-                        document.getElementById('edit_adresse').value = adresse;
-                        document.getElementById('edit_grade').value = grade;
-
-                        modal.style.display = "block";
-                    });
-                });
-
-                span.onclick = function() {
-                    modal.style.display = "none";
-                }
-
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-            });
-        </script>
+        
 
         <?php
     }
