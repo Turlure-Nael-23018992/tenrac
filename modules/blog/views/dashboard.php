@@ -55,7 +55,7 @@ class Dashboard{
                             <?php 
                                 // Récupérer le nom du repas associé au planning
                                 foreach ($this->repas as $repas) {
-                                    if ($repas->getIdRepas() == $planning->getIdRepas()) {
+                                    if ($repas->getId() == $planning->getIdRepas()) {
                                         echo htmlspecialchars($repas->getNom());
                                         break;
                                     }

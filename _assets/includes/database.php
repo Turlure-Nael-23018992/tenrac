@@ -5,7 +5,7 @@ class Database {
     
     // Informations de connexion à la base de données
     private $servername = "mysql-tenrac-projet.alwaysdata.net"; 
-    private $username = "374958_leoiut"; 
+    private $username = "374958_admin"; 
     private $password = "tenracprojetmdp";
     private $dbname = "tenrac-projet_valentin";
 
