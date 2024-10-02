@@ -21,10 +21,6 @@ class Structure {
 
         include 'header.php';
         ?>
-        <head>
-            <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
-            <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
-        </head>
         <main class="structure-main">
             <div class="clubs-container">
                 <div class="ordre">

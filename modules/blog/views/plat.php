@@ -58,11 +58,6 @@ class PlatPage {
 
         include 'header.php';
         ?>
-
-        <head>
-            <link rel="stylesheet" type="text/css" href="/_assets/styles/structure.css">
-            <link rel="stylesheet" type="text/css" href="/_assets/styles/footer.css">
-        </head>
         <main class="structure-main">
             <div class="clubs-container">
                 <div class="ordre">
@@ -131,9 +126,37 @@ class PlatPage {
                     <p>Aucun ingrédient trouvé pour ce plat.</p>
                 <?php endif; ?>
             </div>
+            <div id="addForm" class="add-form">
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="add">
+                <label for="addClubName">Nom du club :</label>
+                <input type="text" id="addClubName" name="nom_club" required>
+                <input type="hidden" name="id_ordre" value="1">
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
 
+        <div id="editForm" class="edit-form" style="display:none;">
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" id="id_plat" name="id_plat">
+                <label for="editClubName">Nom du club :</label>
+                <input type="text" id="editClubName" name="nom_club" required>
+                <input type="hidden" name="id_ordre" value="1">
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+
+        <div id="deleteForm" class="delete-form" style="display:none;">
+            <form method="POST" action="">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" id="deleteClubId" name="id_club">
+                <p>Êtes-vous sûr de vouloir supprimer ce club ?</p>
+                <button type="submit">Supprimer</button>
+            </form>
+        </div>
         </main>
-
+        
         <?php include_once "footer.php"; ?>
         <script>
             function openEditForm(id, name) {
